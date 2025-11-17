@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the find method from the DefaultSerializerProvider class, for the Dart programming language.">
+  <title>find method - DefaultSerializerProvider class - jetson library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson.dart</a></li>
+    <li><a href="../../jetson/DefaultSerializerProvider-class.html">DefaultSerializerProvider</a></li>
+    <li class="self-crumb">find method</li>
+  </ol>
+  <div class="self-name">find</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="jetson&#47;DefaultSerializerProvider-class-sidebar.html"
+    data-below-sidebar="">
+    <div>
+<h1><span class="kind-method">find</span> method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+<span class="returntype"><a href="../../jetson/JsonSerializer-class.html">JsonSerializer</a>?</span>
+<span class="name ">find</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="find-param-type"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a></span> <span class="parameter-name">type</span>, </span></li>
+<li><span class="parameter" id="find-param-serializers"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a></span>, <span class="type-parameter"><a href="../../jetson/JsonSerializer-class.html">JsonSerializer</a></span>&gt;</span></span> <span class="parameter-name">serializers</span></span></li>
+</ol>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Attempts to locate a <a href="../../jetson/JsonSerializer-class.html">JsonSerializer</a> for the specified <code>type</code>
+within the provided <code>serializers</code> map.</p>
+<p>The search follows a hierarchical matching strategy:</p>
+<ol>
+<li><strong>Direct lookup:</strong> Returns immediately if the type exists as a key.</li>
+<li><strong>Capability match:</strong> Checks each serializer’s <code>canSerialize</code> predicate.</li>
+<li><strong>Type equivalence:</strong> Matches serializers whose declared type or
+underlying Dart type equals the requested <code>type</code>.</li>
+</ol>
+<p>Returns the best-matching <a href="../../jetson/JsonSerializer-class.html">JsonSerializer</a> or <code>null</code> if none found.</p>
+<h3 id="example">Example</h3>
+<pre class="language-dart"><code class="language-dart">final serializer = provider.find(Class.of(MyModel), configuredSerializers);
+if (serializer != null) {
+  print("Found serializer for ${serializer.toClass().getName()}");
+}
+</code></pre>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">JsonSerializer? find(Class type, Map&lt;Class, JsonSerializer&gt; serializers) {
+  if (serializers.containsKey(type)) {
+    return serializers[type];
+  }
+
+  JsonSerializer? serializer = serializers.values.find((serializer) =&gt; serializer.canSerialize(type));
+  if (serializer != null) {
+    return serializer;
+  }
+
+  serializer = serializers.values.find((ss) =&gt; ss.toClass() == type || ss.toClass().getType() == type.getType());
+  if (serializer != null) {
+    return serializer;
+  }
+
+  return null;
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson</a></li>
+    <li><a href="../../jetson/DefaultSerializerProvider-class.html">DefaultSerializerProvider</a></li>
+    <li class="self-crumb">find method</li>
+</ol>
+
+    <h5>DefaultSerializerProvider class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+</div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetson
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the ZonedDateTimeJsonConverterAdapter.new constructor from Class ZonedDateTimeJsonConverterAdapter from the jetson library, for the Dart programming language.">
+  <title>ZonedDateTimeJsonConverterAdapter.new constructor - ZonedDateTimeJsonConverterAdapter - jetson library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson.dart</a></li>
+    <li><a href="../../jetson/ZonedDateTimeJsonConverterAdapter-class.html">ZonedDateTimeJsonConverterAdapter</a></li>
+    <li class="self-crumb">ZonedDateTimeJsonConverterAdapter.new const constructor</li>
+  </ol>
+  <div class="self-name">ZonedDateTimeJsonConverterAdapter.new</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="jetson&#47;ZonedDateTimeJsonConverterAdapter-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-constructor">ZonedDateTimeJsonConverterAdapter</span> constructor 
+</h1></div>
+
+    <section class="multi-line-signature">
+      const
+      <span class="name ">ZonedDateTimeJsonConverterAdapter</span>(<wbr>)
+    </section>
+    
+<section class="desc markdown">
+  <p>Creates a new <a href="../../jetson/ZonedDateTimeJsonConverterAdapter-class.html">ZonedDateTimeJsonConverterAdapter</a>.</p>
+<p>A <strong>bidirectional JSON converter</strong> for <a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/ZonedDateTime-class.html">ZonedDateTime</a> objects.</p>
+<p>The <a href="../../jetson/ZonedDateTimeJsonConverterAdapter-class.html">ZonedDateTimeJsonConverterAdapter</a> provides full conversion between
+Dart <a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/ZonedDateTime-class.html">ZonedDateTime</a> instances and their ISO-8601 JSON string
+representations, optionally respecting global timezone configuration
+through the JetLeaf <a href="https://pub.dev/documentation/jetleaf_env/1.0.1/env/Environment-class.html">Environment</a>.</p>
+<h3 id="purpose">Purpose</h3>
+<ul>
+<li>Enables serialization of <a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/ZonedDateTime-class.html">ZonedDateTime</a> into a canonical string form</li>
+<li>Deserializes ISO-8601 strings with or without explicit zone offsets</li>
+<li>Respects environment-defined timezones for contextual consistency</li>
+</ul>
+<h3 id="timezone-resolution">Timezone Resolution</h3>
+<p>The converter checks environment properties in order:</p>
+<ol>
+<li><code>ObjectMapper.TIMEZONE_PROPERTY</code></li>
+<li><code>AbstractApplicationContext.APPLICATION_TIMEZONE</code></li>
+</ol>
+<p>When a timezone is defined, parsing and serialization are aligned to that
+context. Otherwise, the adapter preserves the embedded timezone of the
+<a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/ZonedDateTime-class.html">ZonedDateTime</a> instance.</p>
+<h3 id="example">Example</h3>
+<pre class="language-dart"><code class="language-dart">final adapter = const ZonedDateTimeJsonConverterAdapter();
+
+// Serialization
+final generator = JsonStringWriter();
+adapter.serialize(
+  ZonedDateTime.fromDateTime(DateTime.now(), ZoneId.of('America/New_York')),
+  generator,
+  provider,
+);
+print(generator.toJsonString());
+// "2025-10-28T10:45:00-04:00[America/New_York]"
+
+// Deserialization
+final parser = JsonStringReader('"2025-10-28T10:45:00-04:00[America/New_York]"');
+final zoned = adapter.deserialize(parser, ctxt);
+print(zoned.zone.id); // America/New_York
+</code></pre>
+<h3 id="notes">Notes</h3>
+<ul>
+<li>Accepts ISO-8601 formatted strings with or without explicit zone IDs</li>
+<li>Honors configured environment timezone overrides</li>
+<li>Throws <a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/InvalidFormatException-class.html">InvalidFormatException</a> for malformed or non-string values</li>
+</ul>
+<h3 id="error-handling">Error Handling</h3>
+<p>Throws:</p>
+<ul>
+<li><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/InvalidFormatException-class.html">InvalidFormatException</a> when JSON input is not a valid zoned string</li>
+<li>Generic format errors are accompanied by detailed type info</li>
+</ul>
+<h3 id="see-also">See also</h3>
+<ul>
+<li><a href="../../jetson/JsonConverterAdapter-class.html">JsonConverterAdapter</a></li>
+<li><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/ZonedDateTime-class.html">ZonedDateTime</a></li>
+<li><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/ZoneId-class.html">ZoneId</a></li>
+<li><a href="../../jetson/DateTimeJsonConverterAdapter-class.html">DateTimeJsonConverterAdapter</a></li>
+<li><a href="../../jetson/ObjectMapper-class.html">ObjectMapper</a></li>
+</ul>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">const ZonedDateTimeJsonConverterAdapter();</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson</a></li>
+    <li><a href="../../jetson/ZonedDateTimeJsonConverterAdapter-class.html">ZonedDateTimeJsonConverterAdapter</a></li>
+    <li class="self-crumb">ZonedDateTimeJsonConverterAdapter.new const constructor</li>
+</ol>
+
+    <h5>ZonedDateTimeJsonConverterAdapter class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-left-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetson
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

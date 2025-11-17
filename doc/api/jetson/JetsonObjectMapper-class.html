@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the JetsonObjectMapper class from the jetson library, for the Dart programming language.">
+  <title>JetsonObjectMapper class - jetson library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">jetson</a></li>
+    <li><a href="../jetson/">jetson.dart</a></li>
+    <li class="self-crumb">JetsonObjectMapper class</li>
+  </ol>
+  <div class="self-name">JetsonObjectMapper</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="jetson&#47;jetson-library-sidebar.html"
+    data-below-sidebar="jetson&#47;JetsonObjectMapper-class-sidebar.html">
+    <div>
+<h1><span class="kind-class">JetsonObjectMapper</span> class 
+    <a href="https://dart.dev/language/class-modifiers#final" class="feature feature-final" title="This class can neither be extended, implemented, nor mixed in.">final</a>
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>A comprehensive <strong>JSON object mapper</strong> for Dart, supporting serialization
+and deserialization of Dart objects to/from JSON.</p>
+<p>This class handles standard types, collections, date/time values, URIs, and
+supports pluggable custom serializers, deserializers, and converters.</p>
+<h3 id="features">Features</h3>
+<ul>
+<li>Registers standard serializers/deserializers for common Dart types:
+<ul>
+<li>Primitives: <code>String</code>, <code>int</code>, <code>double</code>, <code>bool</code>, <code>num</code></li>
+<li>Collections: <code>List</code>, <code>Map</code>, <code>Set</code></li>
+<li>Date/Time: <code>DateTime</code>, <code>ZonedDateTime</code>, <code>LocalDateTime</code>, <code>LocalDate</code>, <code>Duration</code></li>
+<li>URIs: <code>Uri</code>, <code>Url</code></li>
+</ul>
+</li>
+<li>Supports custom adapters via <a href="../jetson/JetsonObjectMapper/registerAdapter.html">registerAdapter</a>.</li>
+<li>Maintains a configurable <a href="../jetson/NamingStrategy-class.html">NamingStrategy</a> for field name mapping.</li>
+<li>Integrates with an <a href="https://pub.dev/documentation/jetleaf_core/1.0.1/context/ApplicationContext-class.html">ApplicationContext</a> for environment and conversion services.</li>
+<li>Converts Dart objects to JSON string or map, and parses JSON content to Dart objects or <a href="../jetson/JsonNode-class.html">JsonNode</a> trees.</li>
+</ul>
+<h3 id="usage-example">Usage Example</h3>
+<pre class="language-dart"><code class="language-dart">final mapper = JetsonObjectMapper();
+
+final jsonMap = {
+  'name': 'Alice',
+  'age': 30,
+};
+
+// Serialize to JSON string
+final jsonString = mapper.writeValueAsString(jsonMap);
+print(jsonString); // {"name":"Alice","age":30}
+
+// Deserialize from JSON string
+final map = mapper.readValue&lt;Map&lt;String, dynamic&gt;&gt;(jsonString, Class&lt;Map&lt;String, dynamic&gt;&gt;());
+print(map['name']); // Alice
+</code></pre>
+<h3 id="design-notes">Design Notes</h3>
+<ul>
+<li>Thread-safe serialization and deserialization using <code>synchronized</code>.</li>
+<li>Lazily initializes internal components like <a href="../jetson/JsonGenerator-class.html">JsonGenerator</a>, <a href="../jetson/SerializerProvider-class.html">SerializerProvider</a>, and <a href="../jetson/DeserializationContext-class.html">DeserializationContext</a>.</li>
+<li>Delegates type-specific serialization/deserialization to registered serializers/deserializers.</li>
+<li>Supports feature flags via <a href="../jetson/JetsonObjectMapper/enableFeature.html">enableFeature</a> and <a href="../jetson/JetsonObjectMapper/disableFeature.html">disableFeature</a>.</li>
+</ul>
+</section>
+
+
+    <section>
+      <dl class="dl-horizontal">
+        
+  <dt>Inheritance</dt>
+  <dd>
+    <ul class="gt-separated dark clazz-relationships">
+      <li><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a></li>
+        <li><a href="../jetson/AbstractXmlObjectMapper-class.html">AbstractXmlObjectMapper</a></li>
+        <li><a href="../jetson/AbstractYamlObjectMapper-class.html">AbstractYamlObjectMapper</a></li>
+      <li>JetsonObjectMapper</li>
+    </ul>
+  </dd>
+
+        
+  <dt>Implemented types</dt>
+  <dd>
+    <ul class="comma-separated clazz-relationships">
+        <li><a href="https://pub.dev/documentation/jetleaf_core/1.0.1/core/ApplicationContextAware-class.html">ApplicationContextAware</a></li>
+    </ul>
+  </dd>
+        
+
+
+        
+        
+
+
+      </dl>
+    </section>
+
+    
+  <section class="summary offset-anchor" id="constructors">
+    <h2>Constructors</h2>
+    <dl class="constructor-summary-list">
+        <dt id="JetsonObjectMapper.new" class="callable">
+          <span class="name"><a href="../jetson/JetsonObjectMapper/JetsonObjectMapper.html">JetsonObjectMapper.new</a></span><span class="signature">([<span class="parameter" id="-param-autoRegisterStandardAdapters"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">autoRegisterStandardAdapters</span> = <span class="default-value">true</span></span>])</span>
+        </dt>
+        <dd>
+          A comprehensive <strong>JSON object mapper</strong> for Dart, supporting serialization
+and deserialization of Dart objects to/from JSON.
+        </dd>
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="instance-properties">
+    <h2>Properties</h2>
+    <dl class="properties">
+        <dt id="hashCode" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/int-class.html">int</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  The hash code for this object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="runtimeType" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/Type-class.html">Type</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  A representation of the runtime type of the object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="disableFeature" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/disableFeature.html">disableFeature</a></span><span class="signature">(<wbr><span class="parameter" id="disableFeature-param-featureName"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">featureName</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Disables a configurable feature flag.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="enableFeature" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/enableFeature.html">enableFeature</a></span><span class="signature">(<wbr><span class="parameter" id="enableFeature-param-featureName"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">featureName</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Enables a configurable feature flag in the mapping engine.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="getContext" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/getContext.html">getContext</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="../jetson/DeserializationContext-class.html">DeserializationContext</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the active <a href="../jetson/DeserializationContext-class.html">DeserializationContext</a>, initializing it if necessary.
+  
+
+</dd>
+
+        <dt id="getConversionService" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/getConversionService.html">getConversionService</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://pub.dev/documentation/jetleaf_convert/1.0.1/convert/ConversionService-class.html">ConversionService</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the <strong>global <a href="https://pub.dev/documentation/jetleaf_convert/1.0.1/convert/ConversionService-class.html">ConversionService</a></strong> responsible for
+type coercions and primitive value conversions.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="getEnvironment" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/getEnvironment.html">getEnvironment</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://pub.dev/documentation/jetleaf_env/1.0.1/env/Environment-class.html">Environment</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the active <a href="https://pub.dev/documentation/jetleaf_env/1.0.1/env/Environment-class.html">Environment</a> configuration associated with this mapper.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="getJsonGenerator" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/getJsonGenerator.html">getJsonGenerator</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="../jetson/JsonGenerator-class.html">JsonGenerator</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the active <a href="../jetson/JsonGenerator-class.html">JsonGenerator</a>, initializing it lazily if necessary.
+  
+
+</dd>
+
+        <dt id="getJsonParser" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/getJsonParser.html">getJsonParser</a></span><span class="signature">(<wbr><span class="parameter" id="getJsonParser-param-content"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">content</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../jetson/JsonParser-class.html">JsonParser</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a <a href="../jetson/JsonParser-class.html">JsonParser</a> for the given JSON <code>content</code>.
+  
+
+</dd>
+
+        <dt id="getNamingStrategy" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/getNamingStrategy.html">getNamingStrategy</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="../jetson/NamingStrategy-class.html">NamingStrategy</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the <strong>naming strategy</strong> used for field name conversion.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="getObjectMapper" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/getObjectMapper.html">getObjectMapper</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="../jetson/ObjectMapper-class.html">ObjectMapper</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the <strong>active <a href="../jetson/ObjectMapper-class.html">ObjectMapper</a></strong> performing serialization.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="getProvider" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/getProvider.html">getProvider</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="../jetson/SerializerProvider-class.html">SerializerProvider</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the active <a href="../jetson/SerializerProvider-class.html">SerializerProvider</a>, initializing it lazily if necessary.
+  
+
+</dd>
+
+        <dt id="isFeatureEnabled" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/isFeatureEnabled.html">isFeatureEnabled</a></span><span class="signature">(<wbr><span class="parameter" id="isFeatureEnabled-param-featureName"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">featureName</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns whether a given feature flag is currently enabled.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="noSuchMethod" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Invoked when a nonexistent method or property is accessed.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="readContentTree" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/readContentTree.html">readContentTree</a></span><span class="signature">(<wbr><span class="parameter" id="readContentTree-param-content"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">content</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../jetson/JsonNode-class.html">JsonNode</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Parses the given JSON <code>content</code> string into a <a href="../jetson/JsonNode-class.html">JsonNode</a> tree.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="readTree" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/readTree.html">readTree</a></span><span class="signature">(<wbr><span class="parameter" id="readTree-param-parser"><span class="type-annotation"><a href="../jetson/JsonParser-class.html">JsonParser</a></span> <span class="parameter-name">parser</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../jetson/JsonNode-class.html">JsonNode</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Reads and parses JSON content from the given <a href="../jetson/JsonParser-class.html">JsonParser</a> into a <a href="../jetson/JsonNode-class.html">JsonNode</a> tree.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="readValue" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/readValue.html">readValue</a></span><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="readValue-param-json"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="readValue-param-type"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">type</span></span>)
+    <span class="returntype parameter">&#8594; T</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Deserializes a JSON string into an object of type <code>T</code>.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="readValueFromMap" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/readValueFromMap.html">readValueFromMap</a></span><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="readValueFromMap-param-map"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">map</span>, </span><span class="parameter" id="readValueFromMap-param-type"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">type</span></span>)
+    <span class="returntype parameter">&#8594; T</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Deserializes a JSON-compatible map into an instance of type <code>T</code>.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="readXmlContentTree" class="callable inherited">
+  <span class="name"><a href="../jetson/AbstractXmlObjectMapper/readXmlContentTree.html">readXmlContentTree</a></span><span class="signature">(<wbr><span class="parameter" id="readXmlContentTree-param-content"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">content</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../jetson/XmlNode-class.html">XmlNode</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Parses the given XML <code>content</code> string into an <a href="../jetson/XmlNode-class.html">XmlNode</a> tree.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="readXmlTree" class="callable inherited">
+  <span class="name"><a href="../jetson/AbstractXmlObjectMapper/readXmlTree.html">readXmlTree</a></span><span class="signature">(<wbr><span class="parameter" id="readXmlTree-param-parser"><span class="type-annotation"><a href="../jetson/XmlParser-class.html">XmlParser</a></span> <span class="parameter-name">parser</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../jetson/XmlNode-class.html">XmlNode</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Reads and parses XML content from the given <a href="../jetson/XmlParser-class.html">XmlParser</a> into an <a href="../jetson/XmlNode-class.html">XmlNode</a> tree.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="readXmlValue" class="callable inherited">
+  <span class="name"><a href="../jetson/AbstractXmlObjectMapper/readXmlValue.html">readXmlValue</a></span><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="readXmlValue-param-xml"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">xml</span>, </span><span class="parameter" id="readXmlValue-param-type"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">type</span></span>)
+    <span class="returntype parameter">&#8594; T</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Deserializes an XML string into an object of type <code>T</code>.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="readXmlValueFromMap" class="callable inherited">
+  <span class="name"><a href="../jetson/AbstractXmlObjectMapper/readXmlValueFromMap.html">readXmlValueFromMap</a></span><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="readXmlValueFromMap-param-map"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">map</span>, </span><span class="parameter" id="readXmlValueFromMap-param-type"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">type</span></span>)
+    <span class="returntype parameter">&#8594; T</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Deserializes an XML-compatible map into an instance of type <code>T</code>.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="readYamlContentTree" class="callable inherited">
+  <span class="name"><a href="../jetson/AbstractYamlObjectMapper/readYamlContentTree.html">readYamlContentTree</a></span><span class="signature">(<wbr><span class="parameter" id="readYamlContentTree-param-content"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">content</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../jetson/YamlNode-class.html">YamlNode</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Parses the given YAML <code>content</code> string into a <a href="../jetson/YamlNode-class.html">YamlNode</a> tree.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="readYamlTree" class="callable inherited">
+  <span class="name"><a href="../jetson/AbstractYamlObjectMapper/readYamlTree.html">readYamlTree</a></span><span class="signature">(<wbr><span class="parameter" id="readYamlTree-param-parser"><span class="type-annotation"><a href="../jetson/YamlParser-class.html">YamlParser</a></span> <span class="parameter-name">parser</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../jetson/YamlNode-class.html">YamlNode</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Reads and parses YAML content from the given <a href="../jetson/YamlParser-class.html">YamlParser</a> into a <a href="../jetson/YamlNode-class.html">YamlNode</a> tree.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="readYamlValue" class="callable inherited">
+  <span class="name"><a href="../jetson/AbstractYamlObjectMapper/readYamlValue.html">readYamlValue</a></span><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="readYamlValue-param-yaml"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">yaml</span>, </span><span class="parameter" id="readYamlValue-param-type"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">type</span></span>)
+    <span class="returntype parameter">&#8594; T</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Deserializes a YAML string into an object of type <code>T</code>.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="readYamlValueFromMap" class="callable inherited">
+  <span class="name"><a href="../jetson/AbstractYamlObjectMapper/readYamlValueFromMap.html">readYamlValueFromMap</a></span><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span><span class="signature">(<wbr><span class="parameter" id="readYamlValueFromMap-param-map"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">map</span>, </span><span class="parameter" id="readYamlValueFromMap-param-type"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> <span class="parameter-name">type</span></span>)
+    <span class="returntype parameter">&#8594; T</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Deserializes a YAML-compatible map into an instance of type <code>T</code>.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="registerAdapter" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/registerAdapter.html">registerAdapter</a></span><span class="signature">(<wbr><span class="parameter" id="registerAdapter-param-type"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a></span> <span class="parameter-name">type</span>, </span><span class="parameter" id="registerAdapter-param-adapter"><span class="type-annotation"><a href="../jetson/JsonConverterAdapter-class.html">JsonConverterAdapter</a></span> <span class="parameter-name">adapter</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Registers a bidirectional adapter (<a href="../jetson/JsonConverterAdapter-class.html">JsonConverterAdapter</a>) for type <code>T</code>.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="registerDeserializer" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/registerDeserializer.html">registerDeserializer</a></span><span class="signature">(<wbr><span class="parameter" id="registerDeserializer-param-type"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a></span> <span class="parameter-name">type</span>, </span><span class="parameter" id="registerDeserializer-param-deserializer"><span class="type-annotation"><a href="../jetson/JsonDeserializer-class.html">JsonDeserializer</a></span> <span class="parameter-name">deserializer</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Registers a custom deserializer for type <code>T</code>.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="registerSerializer" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/registerSerializer.html">registerSerializer</a></span><span class="signature">(<wbr><span class="parameter" id="registerSerializer-param-type"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a></span> <span class="parameter-name">type</span>, </span><span class="parameter" id="registerSerializer-param-serializer"><span class="type-annotation"><a href="../jetson/JsonSerializer-class.html">JsonSerializer</a></span> <span class="parameter-name">serializer</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Registers a custom serializer for type <code>T</code>.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="setApplicationContext" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/setApplicationContext.html">setApplicationContext</a></span><span class="signature">(<wbr><span class="parameter" id="setApplicationContext-param-applicationContext"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_core/1.0.1/context/ApplicationContext-class.html">ApplicationContext</a></span> <span class="parameter-name">applicationContext</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Sets the <a href="https://pub.dev/documentation/jetleaf_core/1.0.1/context/ApplicationContext-class.html">ApplicationContext</a> that this component runs in.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="setConversionService" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/setConversionService.html">setConversionService</a></span><span class="signature">(<wbr><span class="parameter" id="setConversionService-param-conversionService"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_convert/1.0.1/convert/ConversionService-class.html">ConversionService</a></span> <span class="parameter-name">conversionService</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Sets the <a href="https://pub.dev/documentation/jetleaf_convert/1.0.1/convert/ConversionService-class.html">ConversionService</a> to be used by this mapper for type conversions.
+  
+
+</dd>
+
+        <dt id="setDeserializationContext" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/setDeserializationContext.html">setDeserializationContext</a></span><span class="signature">(<wbr><span class="parameter" id="setDeserializationContext-param-context"><span class="type-annotation"><a href="../jetson/DeserializationContext-class.html">DeserializationContext</a></span> <span class="parameter-name">context</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Assigns the active <a href="../jetson/DeserializationContext-class.html">DeserializationContext</a> to this component.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="setEnvironment" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/setEnvironment.html">setEnvironment</a></span><span class="signature">(<wbr><span class="parameter" id="setEnvironment-param-environment"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_env/1.0.1/env/Environment-class.html">Environment</a></span> <span class="parameter-name">environment</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Sets the <a href="https://pub.dev/documentation/jetleaf_env/1.0.1/env/Environment-class.html">Environment</a> used by this mapper to look up configuration properties
+and environment variables.
+  
+
+</dd>
+
+        <dt id="setJsonGenerator" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/setJsonGenerator.html">setJsonGenerator</a></span><span class="signature">(<wbr><span class="parameter" id="setJsonGenerator-param-jsonGenerator"><span class="type-annotation"><a href="../jetson/JsonGenerator-class.html">JsonGenerator</a></span> <span class="parameter-name">jsonGenerator</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Sets the active <a href="../jetson/JsonGenerator-class.html">JsonGenerator</a> used for serializing Dart objects to JSON.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="setJsonParserFactory" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/setJsonParserFactory.html">setJsonParserFactory</a></span><span class="signature">(<wbr><span class="parameter" id="setJsonParserFactory-param-factory"><span class="type-annotation"><a href="../jetson/JsonParserFactory.html">JsonParserFactory</a></span> <span class="parameter-name">factory</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Sets a custom JSON parser factory to create <a href="../jetson/JsonParser-class.html">JsonParser</a> instances from
+raw JSON strings.
+  
+
+</dd>
+
+        <dt id="setNamingStrategy" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/setNamingStrategy.html">setNamingStrategy</a></span><span class="signature">(<wbr><span class="parameter" id="setNamingStrategy-param-strategy"><span class="type-annotation"><a href="../jetson/NamingStrategy-class.html">NamingStrategy</a></span> <span class="parameter-name">strategy</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Sets the active <a href="../jetson/NamingStrategy-class.html">NamingStrategy</a> used during (de)serialization.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="setSerializerProvider" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/setSerializerProvider.html">setSerializerProvider</a></span><span class="signature">(<wbr><span class="parameter" id="setSerializerProvider-param-provider"><span class="type-annotation"><a href="../jetson/SerializerProvider-class.html">SerializerProvider</a></span> <span class="parameter-name">provider</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Assigns the active <a href="../jetson/SerializerProvider-class.html">SerializerProvider</a> to this component.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="toString" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A string representation of this object.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="writeValueAsMap" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/writeValueAsMap.html">writeValueAsMap</a></span><span class="signature">(<wbr><span class="parameter" id="writeValueAsMap-param-value"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Serializes a Dart object into a <code>Map&lt;String, dynamic&gt;</code> representation.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="writeValueAsString" class="callable">
+  <span class="name"><a href="../jetson/JetsonObjectMapper/writeValueAsString.html">writeValueAsString</a></span><span class="signature">(<wbr><span class="parameter" id="writeValueAsString-param-value"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Serializes a Dart object into a JSON string.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="writeValueAsXml" class="callable inherited">
+  <span class="name"><a href="../jetson/AbstractXmlObjectMapper/writeValueAsXml.html">writeValueAsXml</a></span><span class="signature">(<wbr><span class="parameter" id="writeValueAsXml-param-value"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Serializes a Dart object into an XML string.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="writeValueAsXmlMap" class="callable inherited">
+  <span class="name"><a href="../jetson/AbstractXmlObjectMapper/writeValueAsXmlMap.html">writeValueAsXmlMap</a></span><span class="signature">(<wbr><span class="parameter" id="writeValueAsXmlMap-param-value"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Serializes a Dart object into an XML <code>Map&lt;String, dynamic&gt;</code> representation.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="writeValueAsYaml" class="callable inherited">
+  <span class="name"><a href="../jetson/AbstractYamlObjectMapper/writeValueAsYaml.html">writeValueAsYaml</a></span><span class="signature">(<wbr><span class="parameter" id="writeValueAsYaml-param-value"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Serializes a Dart object into a YAML string.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="writeValueAsYamlMap" class="callable inherited">
+  <span class="name"><a href="../jetson/AbstractYamlObjectMapper/writeValueAsYamlMap.html">writeValueAsYamlMap</a></span><span class="signature">(<wbr><span class="parameter" id="writeValueAsYamlMap-param-value"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Serializes a Dart object into a YAML <code>Map&lt;String, dynamic&gt;</code> representation.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="operators">
+    <h2>Operators</h2>
+    <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  The equality operator.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+    
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">jetson</a></li>
+    <li><a href="../jetson/">jetson</a></li>
+    <li class="self-crumb">JetsonObjectMapper class</li>
+</ol>
+
+    <h5>jetson library</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetson
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

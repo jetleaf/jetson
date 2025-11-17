@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the AbstractYamlObjectMapper.new constructor from Class AbstractYamlObjectMapper from the jetson library, for the Dart programming language.">
+  <title>AbstractYamlObjectMapper.new constructor - AbstractYamlObjectMapper - jetson library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson.dart</a></li>
+    <li><a href="../../jetson/AbstractYamlObjectMapper-class.html">AbstractYamlObjectMapper</a></li>
+    <li class="self-crumb">AbstractYamlObjectMapper.new constructor</li>
+  </ol>
+  <div class="self-name">AbstractYamlObjectMapper.new</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="jetson&#47;AbstractYamlObjectMapper-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-constructor">AbstractYamlObjectMapper</span> constructor 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+      <span class="name ">AbstractYamlObjectMapper</span>(<wbr>)
+    </section>
+    
+<section class="desc markdown">
+  <p>Abstract base implementation of <a href="../../jetson/YamlObjectMapper-class.html">yaml_mapper.YamlObjectMapper</a> extending
+<a href="../../jetson/AbstractXmlObjectMapper-class.html">AbstractXmlObjectMapper</a> to provide YAML-specific serialization/deserialization.</p>
+<p>This class implements all <a href="../../jetson/YamlObjectMapper-class.html">yaml_mapper.YamlObjectMapper</a> methods, handling
+YAML parsing and generation. It maintains the hierarchy: ObjectMapper →
+AbstractXmlObjectMapper → AbstractYamlObjectMapper, allowing clean separation
+of XML and YAML concerns.</p>
+<h3 id="design-hierarchy">Design Hierarchy</h3>
+<pre class="language-dart"><code>ObjectMapper (JSON)
+  ↓
+AbstractXmlObjectMapper (XML)
+  ↓
+AbstractYamlObjectMapper (YAML)
+  ↓
+JetsonObjectMapper (Concrete implementation)
+</code></pre>
+<h3 id="responsibilities">Responsibilities</h3>
+<p>This class handles:</p>
+<ul>
+<li>YAML content parsing via <a href="../../jetson/YamlParser-class.html">yaml_mapper.YamlParser</a></li>
+<li>Tree-based YAML navigation via <a href="../../jetson/YamlNode-class.html">yaml_mapper.YamlNode</a></li>
+<li>Format conversions between YAML strings and maps</li>
+<li>Support for YAML-specific features (anchors, aliases)</li>
+<li>Integration with Jetson's naming strategies and converters</li>
+</ul>
+<h3 id="extension">Extension</h3>
+<p>Subclasses should override:</p>
+<ul>
+<li><a href="../../jetson/AbstractYamlObjectMapper/writeValueAsYaml.html">writeValueAsYaml</a> - Customize YAML serialization</li>
+<li><a href="../../jetson/AbstractYamlObjectMapper/readYamlValue.html">readYamlValue</a> - Customize YAML deserialization</li>
+<li>Other YAML-specific methods as needed</li>
+</ul>
+<h3 id="example">Example</h3>
+<pre class="language-dart"><code class="language-dart">class MyYamlMapper extends AbstractYamlObjectMapper {
+  @override
+  String writeValueAsYaml(Object? value) {
+    // Custom YAML serialization
+  }
+  
+  @override
+  T readYamlValue&lt;T&gt;(String yaml, Class&lt;T&gt; type) {
+    // Custom YAML deserialization
+  }
+}
+</code></pre>
+<h3 id="related-classes">Related Classes</h3>
+<ul>
+<li><a href="../../jetson/AbstractXmlObjectMapper-class.html">AbstractXmlObjectMapper</a> - XML serialization layer</li>
+<li><a href="../../jetson/YamlObjectMapper-class.html">yaml_mapper.YamlObjectMapper</a> - Interface definition</li>
+<li><a href="../../jetson/ObjectMapper-class.html">ObjectMapper</a> - Base contract for all mappers</li>
+</ul>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">AbstractYamlObjectMapper() : super();</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson</a></li>
+    <li><a href="../../jetson/AbstractYamlObjectMapper-class.html">AbstractYamlObjectMapper</a></li>
+    <li class="self-crumb">AbstractYamlObjectMapper.new constructor</li>
+</ol>
+
+    <h5>AbstractYamlObjectMapper class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-left-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetson
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

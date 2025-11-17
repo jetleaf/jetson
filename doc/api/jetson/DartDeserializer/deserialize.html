@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the deserialize method from the DartDeserializer class, for the Dart programming language.">
+  <title>deserialize method - DartDeserializer class - jetson library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson.dart</a></li>
+    <li><a href="../../jetson/DartDeserializer-class.html">DartDeserializer</a></li>
+    <li class="self-crumb">deserialize method</li>
+  </ol>
+  <div class="self-name">deserialize</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="jetson&#47;DartDeserializer-class-sidebar.html"
+    data-below-sidebar="">
+    <div>
+<h1><span class="kind-method">deserialize</span> method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+  <div>
+    <ol class="annotation-list">
+        <li>@<a href="https://api.dart.dev/stable/3.9.2/dart-core/override-constant.html">override</a></li>
+    </ol>
+  </div>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a>?</span>
+<span class="name ">deserialize</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="deserialize-param-parser"><span class="type-annotation"><a href="../../jetson/JsonParser-class.html">JsonParser</a></span> <span class="parameter-name">parser</span>, </span></li>
+<li><span class="parameter" id="deserialize-param-ctxt"><span class="type-annotation"><a href="../../jetson/DeserializationContext-class.html">DeserializationContext</a></span> <span class="parameter-name">ctxt</span>, </span></li>
+<li><span class="parameter" id="deserialize-param-toClass"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a></span> <span class="parameter-name">toClass</span></span></li>
+</ol>)
+
+      <div class="features"><span class="feature">override</span></div>
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Deserializes an object of type <code>T</code> using the given <a href="../../jetson/JsonParser-class.html">JsonParser</a> and
+<a href="../../jetson/DeserializationContext-class.html">DeserializationContext</a>.</p>
+<p>This method reads tokens from the provided <code>parser</code>, interprets them
+according to the target type metadata, and reconstructs an instance
+of <code>T</code>.</p>
+<h3 id="example">Example</h3>
+<pre class="language-dart"><code class="language-dart">final user = UserDeserializer().deserialize(parser, context);
+</code></pre>
+<h3 id="responsibilities">Responsibilities</h3>
+<ul>
+<li>Interpret JSON tokens from the parser sequentially</li>
+<li>Use <a href="../../jetson/DeserializationContext-class.html">DeserializationContext</a> for nested deserialization and converters</li>
+<li>Handle complex object graphs, lists, and maps recursively</li>
+<li>Return a fully reconstructed object of type <code>T</code></li>
+</ul>
+<h3 id="error-handling">Error Handling</h3>
+<p>Should throw a descriptive exception if:</p>
+<ul>
+<li>JSON structure mismatches the expected type</li>
+<li>Required fields are missing or invalid</li>
+<li>Type conversion fails during object creation</li>
+</ul>
+<h3 id="see-also">See also</h3>
+<ul>
+<li><a href="../../jetson/DeserializationContext-class.html">DeserializationContext</a></li>
+<li><a href="../../jetson/JsonParser-class.html">JsonParser</a></li>
+<li><a href="../../jetson/ObjectMapper/readValue.html">ObjectMapper.readValue</a></li>
+</ul>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">@override
+Object? deserialize(JsonParser parser, DeserializationContext ctxt, Class toClass) {
+  final token = parser.getCurrentToken();
+
+  if (token == JsonToken.VALUE_NULL) {
+    return null;
+  }
+
+  if (token != JsonToken.START_OBJECT) {
+    throw InvalidFormatException(&#39;Expected START_OBJECT, got $token&#39;);
+  }
+
+  final naming = ctxt.getNamingStrategy();
+  final allowUnknown = !ctxt.getObjectMapper().isFeatureEnabled(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES.name);
+  final type = _type;
+  final fieldValues = &lt;String, Object&gt;{};
+
+  &#47;&#47; Parse all JSON fields into Dart field map
+  while (parser.nextToken()) {
+    final currentToken = parser.getCurrentToken();
+
+    if (currentToken == JsonToken.END_OBJECT) {
+      break;
+    }
+
+    if (currentToken == JsonToken.FIELD_NAME) {
+      final jsonKey = parser.getCurrentName()!;
+      parser.nextToken();
+
+      final jsonValue = parser.getCurrentValue();
+
+      &#47;&#47; Map JSON key → Dart field (do this before attempting nested delegation)
+      final dartKey = naming.toDartName(jsonKey);
+      final field = type.getField(dartKey);
+
+      &#47;&#47; Handle unknown properties
+      if (field == null) {
+        if (!allowUnknown) {
+          throw JsonParsingException(&#39;Unknown property &quot;$jsonKey&quot; for type ${_type.getName()}&#39;);
+        }
+
+        continue;
+      }
+
+      final fieldClass = field.getReturnClass();
+
+      &#47;&#47; Skip ignored fields
+      if (field.hasDirectAnnotation&lt;JsonIgnore&gt;()) continue;
+
+      final jsonField = field.getDirectAnnotation&lt;JsonField&gt;();
+      if (jsonField != null &amp;&amp; jsonField.ignore) continue;
+
+      &#47;&#47; Handle @JsonField (default values &#47; required)
+      if (jsonValue == null) {
+        final defaultValue = jsonField?.defaultValue;
+        if (defaultValue != null) {
+          fieldValues[dartKey] = defaultValue;
+          continue;
+        }
+      }
+
+      if (jsonValue == null &amp;&amp; jsonField?.required == true) {
+        throw JsonParsingException(&#39;Required field &quot;$dartKey&quot; missing for ${_type.getName()}&#39;);
+      }
+
+      &#47;&#47; Apply @JsonConverter if present
+      final jsonConverter = field.getDirectAnnotation&lt;JsonConverter&gt;();
+      if (jsonConverter != null) {
+        final converterInstance = jsonConverter.converter;
+        final ct = jsonConverter.type;
+
+        final adapter = ct != null ? ct.toClass().getNoArgConstructor()?.newInstance() : converterInstance;
+        if (adapter != null &amp;&amp; adapter is JsonDeserializer) {
+          fieldValues[dartKey] = adapter.deserialize(parser, ctxt, fieldClass);
+          continue;
+        }
+      }
+
+      &#47;&#47; Try type-based deserializer
+      fieldValues[dartKey] = ctxt.deserialize(parser, fieldClass);
+    }
+  }
+
+  &#47;&#47; Construct the dart
+  return _construct(fieldValues, type);
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson</a></li>
+    <li><a href="../../jetson/DartDeserializer-class.html">DartDeserializer</a></li>
+    <li class="self-crumb">deserialize method</li>
+</ol>
+
+    <h5>DartDeserializer class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+</div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetson
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the DartDeserializer.new constructor from Class DartDeserializer from the jetson library, for the Dart programming language.">
+  <title>DartDeserializer.new constructor - DartDeserializer - jetson library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson.dart</a></li>
+    <li><a href="../../jetson/DartDeserializer-class.html">DartDeserializer</a></li>
+    <li class="self-crumb">DartDeserializer.new constructor</li>
+  </ol>
+  <div class="self-name">DartDeserializer.new</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="jetson&#47;DartDeserializer-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-constructor">DartDeserializer</span> constructor 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+      <span class="name ">DartDeserializer</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="-param-_type"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a></span> <span class="parameter-name">_type</span></span></li>
+</ol>)
+    </section>
+    
+<section class="desc markdown">
+  <p>Creates a new <a href="../../jetson/DartDeserializer-class.html">DartDeserializer</a> for the given type.</p>
+<p>A <strong>reflection-based JSON deserializer</strong> for arbitrary Dart objects.</p>
+<p>This deserializer uses <a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a> metadata and annotations such as <a href="../../jetson/JsonField-class.html">JsonField</a>,
+<a href="../../jetson/JsonIgnore-class.html">JsonIgnore</a>, and <a href="../../jetson/JsonConverter-class.html">JsonConverter</a> to reconstruct Dart objects from JSON maps.
+It seamlessly integrates with Jetleaf's reflection system and naming strategy.</p>
+<h3 id="core-features">Core Features</h3>
+<ul>
+<li>Reflective field population for any Dart object type.</li>
+<li>Supports <code>fromJson(Map&lt;String, dynamic&gt;)</code> and <code>@JsonCreator</code> constructors.</li>
+<li>Skips or defaults missing fields based on <a href="../../jetson/JsonField-class.html">JsonField</a> annotations.</li>
+<li>Applies custom converters declared via <a href="../../jetson/JsonConverter-class.html">JsonConverter</a>.</li>
+<li>Honors naming strategy transformations between JSON and Dart fields.</li>
+<li>Optionally ignores unknown JSON properties.</li>
+</ul>
+<h3 id="usage-example">Usage Example</h3>
+<pre class="language-dart"><code class="language-dart">@JsonSerializable()
+class Person {
+  final String name;
+  final int age;
+
+  const Person(this.name, this.age);
+
+  factory Person.fromJson(Map&lt;String, dynamic&gt; json) =&gt; Person(
+    json['name'] as String,
+    json['age'] as int,
+  );
+}
+
+final jsonParser = JsonParser.fromString('{"name":"Alice","age":30}');
+final deserializer = DartDeserializer(Class&lt;Person&gt;(Person, "Person"));
+final ctxt = DeserializationContext();
+
+final person = deserializer.deserialize(jsonParser, ctxt) as Person;
+print(person.name); // Alice
+</code></pre>
+<h3 id="behavior-overview">Behavior Overview</h3>
+<table>
+<thead>
+<tr>
+<th>Behavior</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@JsonCreator</code></td>
+<td>Invoked for object construction if present</td>
+</tr>
+<tr>
+<td><code>fromJson(Map)</code></td>
+<td>Fallback factory method</td>
+</tr>
+<tr>
+<td><code>@JsonIgnore</code></td>
+<td>Field skipped during mapping</td>
+</tr>
+<tr>
+<td><code>@JsonField(defaultValue)</code></td>
+<td>Default applied if field missing</td>
+</tr>
+<tr>
+<td><code>@JsonField(required: true)</code></td>
+<td>Throws on missing field</td>
+</tr>
+<tr>
+<td><code>@JsonConverter</code></td>
+<td>Applies field-level converter</td>
+</tr>
+<tr>
+<td>Unknown keys</td>
+<td>Ignored if <code>FAIL_ON_UNKNOWN_PROPERTIES</code> disabled</td>
+</tr>
+</tbody>
+</table>
+<h3 id="design-notes">Design Notes</h3>
+<ul>
+<li>Complements <a href="../../jetson/DartSerializer-class.html">DartSerializer</a> for symmetrical reflection-based mapping.</li>
+<li>Uses contextual <a href="../../jetson/NamingStrategy-class.html">NamingStrategy</a> to align key formats.</li>
+<li>Resilient against missing constructors or unknown types.</li>
+<li>Prioritizes explicit annotations before fallback reflection.</li>
+</ul>
+<h3 id="see-also">See Also</h3>
+<ul>
+<li><a href="../../jetson/JsonDeserializer-class.html">JsonDeserializer</a></li>
+<li><a href="../../jetson/JsonConverter-class.html">JsonConverter</a></li>
+<li><a href="../../jetson/JsonField-class.html">JsonField</a></li>
+<li><a href="../../jetson/DeserializationFeature.html">DeserializationFeature</a></li>
+<li><a href="../../jetson/NamingStrategy-class.html">NamingStrategy</a></li>
+</ul>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">DartDeserializer(this._type);</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson</a></li>
+    <li><a href="../../jetson/DartDeserializer-class.html">DartDeserializer</a></li>
+    <li class="self-crumb">DartDeserializer.new constructor</li>
+</ol>
+
+    <h5>DartDeserializer class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-left-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetson
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

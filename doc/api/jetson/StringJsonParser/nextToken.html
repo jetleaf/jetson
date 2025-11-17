@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the nextToken method from the StringJsonParser class, for the Dart programming language.">
+  <title>nextToken method - StringJsonParser class - jetson library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson.dart</a></li>
+    <li><a href="../../jetson/StringJsonParser-class.html">StringJsonParser</a></li>
+    <li class="self-crumb">nextToken method</li>
+  </ol>
+  <div class="self-name">nextToken</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="jetson&#47;StringJsonParser-class-sidebar.html"
+    data-below-sidebar="">
+    <div>
+<h1><span class="kind-method">nextToken</span> method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+  <div>
+    <ol class="annotation-list">
+        <li>@<a href="https://api.dart.dev/stable/3.9.2/dart-core/override-constant.html">override</a></li>
+    </ol>
+  </div>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.9.2/dart-core/bool-class.html">bool</a></span>
+<span class="name ">nextToken</span>(<wbr>)
+
+      <div class="features"><span class="feature">override</span></div>
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Advances the parser to the <strong>next JSON token</strong>.</p>
+<p>This method reads input until the next structural or value token is found.
+Returns <code>true</code> if another token exists, or <code>false</code> when the end of input
+is reached.</p>
+<h3 id="example">Example</h3>
+<pre class="language-dart"><code class="language-dart">while (parser.nextToken()) {
+  print(parser.getCurrentToken());
+}
+</code></pre>
+<h3 id="notes">Notes</h3>
+<ul>
+<li>Tokens include object/array boundaries and scalar values</li>
+<li>After reaching the end, calling again should return <code>false</code></li>
+</ul>
+<p>See also:</p>
+<ul>
+<li><a href="../../jetson/StringJsonParser/getCurrentToken.html">getCurrentToken</a></li>
+</ul>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">@override
+bool nextToken() {
+  if (_closed || _currentState == null) return false;
+
+  final state = _currentState!;
+
+  &#47;&#47; Advance the current state. If it returns true we have a new token
+  &#47;&#47; available. If it returns false it means this state has finished
+  &#47;&#47; emitting tokens (i.e. reached END_OBJECT&#47;END_ARRAY) and we should
+  &#47;&#47; pop back to the parent state if any.
+  if (state.advance()) {
+    &#47;&#47; If the current token is a START_OBJECT or START_ARRAY and the
+    &#47;&#47; associated currentValue is a Map&#47;List, push a new frame so nested
+    &#47;&#47; traversal begins inside that value on the next call.
+    final token = state.currentToken;
+    final val = state.currentValue;
+
+    if ((token == JsonToken.START_OBJECT &amp;&amp; val is Map) ||
+        (token == JsonToken.START_ARRAY &amp;&amp; val is List)) {
+      &#47;&#47; Push parent state to stack and enter child. Then step into the
+      &#47;&#47; child so the first token inside it (START_OBJECT&#47;START_ARRAY)
+      &#47;&#47; is emitted by this call.
+      _stack.add(state);
+      _currentState = _ParserState.fromValue(val);
+      return nextToken();
+    }
+
+    return true;
+  }
+
+  &#47;&#47; If the state finished (returned false), emit the END token for that
+  &#47;&#47; state and then restore the parent state if available. The parent
+  &#47;&#47; should continue from the position after the child value.
+  if (_stack.isNotEmpty) {
+    final parent = _stack.removeLast();
+    &#47;&#47; Parent&#39;s advance() previously advanced to the child value. We need
+    &#47;&#47; to ensure the parent is positioned after the child; calling
+    &#47;&#47; parent.advance() will move it forward. Set current state to parent
+    &#47;&#47; and call nextToken recursively to produce the next appropriate token
+    &#47;&#47; (which may be END_OBJECT&#47;END_ARRAY or next field).
+    _currentState = parent;
+    return nextToken();
+  }
+
+  return false;
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson</a></li>
+    <li><a href="../../jetson/StringJsonParser-class.html">StringJsonParser</a></li>
+    <li class="self-crumb">nextToken method</li>
+</ol>
+
+    <h5>StringJsonParser class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+</div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetson
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

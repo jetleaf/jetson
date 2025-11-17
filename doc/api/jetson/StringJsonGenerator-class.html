@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the StringJsonGenerator class from the jetson library, for the Dart programming language.">
+  <title>StringJsonGenerator class - jetson library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">jetson</a></li>
+    <li><a href="../jetson/">jetson.dart</a></li>
+    <li class="self-crumb">StringJsonGenerator class</li>
+  </ol>
+  <div class="self-name">StringJsonGenerator</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="jetson&#47;jetson-library-sidebar.html"
+    data-below-sidebar="jetson&#47;StringJsonGenerator-class-sidebar.html">
+    <div>
+<h1><span class="kind-class">StringJsonGenerator</span> class 
+    <a href="https://dart.dev/language/class-modifiers#final" class="feature feature-final" title="This class can neither be extended, implemented, nor mixed in.">final</a>
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>Internal <a href="../jetson/JsonGenerator-class.html">JsonGenerator</a> implementation that writes JSON into a <a href="https://api.dart.dev/stable/3.9.2/dart-core/StringBuffer-class.html">StringBuffer</a>.</p>
+<p>The <a href="../jetson/StringJsonGenerator-class.html">StringJsonGenerator</a> is responsible for emitting valid JSON text
+as objects, arrays, and primitives are serialized through the
+JetLeaf serialization pipeline.</p>
+<h3 id="responsibilities">Responsibilities</h3>
+<ul>
+<li>Manage syntactically correct JSON output (commas, nesting, quoting)</li>
+<li>Escape special characters inside JSON strings</li>
+<li>Track structural context using internal stacks</li>
+<li>Prevent trailing commas and malformed JSON output</li>
+</ul>
+<h3 id="example-internal">Example (internal)</h3>
+<pre class="language-dart"><code class="language-dart">final generator = StringJsonGenerator();
+generator.writeStartObject();
+generator.writeFieldName('message');
+generator.writeString('Hello, JetLeaf!');
+generator.writeEndObject();
+
+print(generator.toJsonString()); // {"message":"Hello, JetLeaf!"}
+</code></pre>
+<h3 id="notes">Notes</h3>
+<ul>
+<li>Used internally by <a href="../jetson/ObjectMapper-class.html">ObjectMapper</a></li>
+<li>Designed for efficiency and correctness</li>
+<li>Thread-safety is not guaranteed (should not be reused across isolates)</li>
+</ul>
+<h3 id="see-also">See also</h3>
+<ul>
+<li><a href="../jetson/StringJsonParser-class.html">StringJsonParser</a></li>
+<li><a href="../jetson/JsonGenerator-class.html">JsonGenerator</a></li>
+<li><a href="../jetson/ObjectMapper-class.html">ObjectMapper</a></li>
+</ul>
+</section>
+
+
+    <section>
+      <dl class="dl-horizontal">
+        
+
+        
+  <dt>Implemented types</dt>
+  <dd>
+    <ul class="comma-separated clazz-relationships">
+        <li><a href="../jetson/JsonGenerator-class.html">JsonGenerator</a></li>
+    </ul>
+  </dd>
+        
+
+
+        
+        
+
+
+      </dl>
+    </section>
+
+    
+  <section class="summary offset-anchor" id="constructors">
+    <h2>Constructors</h2>
+    <dl class="constructor-summary-list">
+        <dt id="StringJsonGenerator.new" class="callable">
+          <span class="name"><a href="../jetson/StringJsonGenerator/StringJsonGenerator.html">StringJsonGenerator.new</a></span><span class="signature">({<span class="parameter" id="-param-pretty"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">pretty</span> = <span class="default-value">false</span>, </span><span class="parameter" id="-param-indentSize"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/int-class.html">int</a></span> <span class="parameter-name">indentSize</span> = <span class="default-value">2</span></span>})</span>
+        </dt>
+        <dd>
+          Creates a new <a href="../jetson/StringJsonGenerator-class.html">StringJsonGenerator</a>.
+        </dd>
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-properties">
+    <h2>Properties</h2>
+    <dl class="properties">
+        <dt id="hashCode" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/int-class.html">int</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  The hash code for this object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="indentSize" class="property">
+  <span class="name"><a href="../jetson/StringJsonGenerator/indentSize.html">indentSize</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/int-class.html">int</a></span>
+  
+
+</dt>
+<dd>
+  The number of spaces to use for each indentation level when <a href="../jetson/StringJsonGenerator/pretty.html">pretty</a> printing is enabled.
+  <div class="features"><span class="feature">final</span></div>
+
+</dd>
+
+        <dt id="pretty" class="property">
+  <span class="name"><a href="../jetson/StringJsonGenerator/pretty.html">pretty</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/bool-class.html">bool</a></span>
+  
+
+</dt>
+<dd>
+  Whether to format JSON output with line breaks and indentation.
+  <div class="features"><span class="feature">final</span></div>
+
+</dd>
+
+        <dt id="runtimeType" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/Type-class.html">Type</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  A representation of the runtime type of the object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="noSuchMethod" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Invoked when a nonexistent method or property is accessed.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="toJsonString" class="callable">
+  <span class="name"><a href="../jetson/StringJsonGenerator/toJsonString.html">toJsonString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the <strong>final JSON output string</strong>, if the generator writes to an
+in-memory buffer.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="toString" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A string representation of this object.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="writeBoolean" class="callable">
+  <span class="name"><a href="../jetson/StringJsonGenerator/writeBoolean.html">writeBoolean</a></span><span class="signature">(<wbr><span class="parameter" id="writeBoolean-param-value"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Writes a <strong>boolean value</strong>.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="writeEndArray" class="callable">
+  <span class="name"><a href="../jetson/StringJsonGenerator/writeEndArray.html">writeEndArray</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Writes the <strong>end of a JSON array</strong> (<code>]</code>).
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="writeEndObject" class="callable">
+  <span class="name"><a href="../jetson/StringJsonGenerator/writeEndObject.html">writeEndObject</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Writes the <strong>end of the current JSON object</strong> (<code>}</code>).
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="writeFieldName" class="callable">
+  <span class="name"><a href="../jetson/StringJsonGenerator/writeFieldName.html">writeFieldName</a></span><span class="signature">(<wbr><span class="parameter" id="writeFieldName-param-name"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Writes a <strong>field name</strong> within an object context.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="writeNull" class="callable">
+  <span class="name"><a href="../jetson/StringJsonGenerator/writeNull.html">writeNull</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Writes a <strong>null literal</strong>.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="writeNumber" class="callable">
+  <span class="name"><a href="../jetson/StringJsonGenerator/writeNumber.html">writeNumber</a></span><span class="signature">(<wbr><span class="parameter" id="writeNumber-param-value"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/num-class.html">num</a></span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Writes a <strong>numeric value</strong>.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="writeRaw" class="callable">
+  <span class="name"><a href="../jetson/StringJsonGenerator/writeRaw.html">writeRaw</a></span><span class="signature">(<wbr><span class="parameter" id="writeRaw-param-json"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">json</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Writes a <strong>raw JSON fragment</strong> directly to output.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="writeStartArray" class="callable">
+  <span class="name"><a href="../jetson/StringJsonGenerator/writeStartArray.html">writeStartArray</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Writes the <strong>start of a JSON array</strong> (<code>[</code>).
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="writeStartObject" class="callable">
+  <span class="name"><a href="../jetson/StringJsonGenerator/writeStartObject.html">writeStartObject</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Writes the <strong>start of a JSON object</strong> (<code>{</code>).
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="writeString" class="callable">
+  <span class="name"><a href="../jetson/StringJsonGenerator/writeString.html">writeString</a></span><span class="signature">(<wbr><span class="parameter" id="writeString-param-value"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Writes a <strong>string value</strong>.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="operators">
+    <h2>Operators</h2>
+    <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  The equality operator.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+    
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">jetson</a></li>
+    <li><a href="../jetson/">jetson</a></li>
+    <li class="self-crumb">StringJsonGenerator class</li>
+</ol>
+
+    <h5>jetson library</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetson
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

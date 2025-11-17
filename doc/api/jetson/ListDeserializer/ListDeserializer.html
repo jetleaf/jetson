@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the ListDeserializer.new constructor from Class ListDeserializer from the jetson library, for the Dart programming language.">
+  <title>ListDeserializer.new constructor - ListDeserializer - jetson library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson.dart</a></li>
+    <li><a href="../../jetson/ListDeserializer-class.html">ListDeserializer</a></li>
+    <li class="self-crumb">ListDeserializer.new const constructor</li>
+  </ol>
+  <div class="self-name">ListDeserializer.new</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="jetson&#47;ListDeserializer-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-constructor">ListDeserializer</span> constructor 
+</h1></div>
+
+    <section class="multi-line-signature">
+      const
+      <span class="name ">ListDeserializer</span>(<wbr>)
+    </section>
+    
+<section class="desc markdown">
+  <p>A <strong>standard JSON deserializer</strong> for deserializing JSON arrays into Dart <a href="https://api.dart.dev/stable/3.9.2/dart-core/List-class.html">List</a> objects.</p>
+<p>This deserializer reads a sequence of JSON values enclosed in brackets (<code>[...]</code>)
+and returns a mutable <a href="https://api.dart.dev/stable/3.9.2/dart-core/List-class.html">List</a> containing the corresponding Dart objects.<br>
+It performs a shallow parse — each element is deserialized as-is from
+the parser’s current token value.</p>
+<h3 id="usage-example">Usage Example</h3>
+<pre class="language-dart"><code class="language-dart">final parser = JsonParser('[1, "two", true]');
+final deserializer = const ListDeserializer();
+final result = deserializer.deserialize(parser, ctxt);
+
+print(result); // [1, "two", true]
+</code></pre>
+<h3 id="behavior-overview">Behavior Overview</h3>
+<table>
+<thead>
+<tr>
+<th>Input JSON</th>
+<th>Output Dart Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[1, 2, 3]</code></td>
+<td><code>[1, 2, 3]</code></td>
+<td>Numeric array</td>
+</tr>
+<tr>
+<td><code>["a", "b"]</code></td>
+<td><code>["a", "b"]</code></td>
+<td>String array</td>
+</tr>
+<tr>
+<td><code>[true, false]</code></td>
+<td><code>[true, false]</code></td>
+<td>Boolean array</td>
+</tr>
+<tr>
+<td><code>[]</code></td>
+<td><code>[]</code></td>
+<td>Empty array</td>
+</tr>
+<tr>
+<td><code>null</code></td>
+<td><code>null</code></td>
+<td>Safe null passthrough</td>
+</tr>
+</tbody>
+</table>
+<h3 id="design-notes">Design Notes</h3>
+<ul>
+<li>Validates that the current token is <a href="../../jetson/JsonToken.html">JsonToken.START_ARRAY</a>; otherwise throws <a href="https://api.dart.dev/stable/3.9.2/dart-core/FormatException-class.html">FormatException</a>.</li>
+<li>Returns a dynamic <a href="https://api.dart.dev/stable/3.9.2/dart-core/List-class.html">List&lt;Object?&gt;</a> to allow mixed-type collections.</li>
+<li>Does <strong>not</strong> recursively deserialize nested objects — higher-level
+<a href="../../jetson/JsonDeserializer-class.html">JsonDeserializer</a>s should handle typed element deserialization.</li>
+<li>Designed for efficiency and interoperability with JSON parsing pipelines.</li>
+</ul>
+<h3 id="see-also">See Also</h3>
+<ul>
+<li><a href="../../jetson/MapDeserializer-class.html">MapDeserializer</a></li>
+<li><a href="../../jetson/JsonParser-class.html">JsonParser</a></li>
+<li><a href="../../jetson/JsonToken.html">JsonToken</a></li>
+</ul>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">const ListDeserializer();</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson</a></li>
+    <li><a href="../../jetson/ListDeserializer-class.html">ListDeserializer</a></li>
+    <li class="self-crumb">ListDeserializer.new const constructor</li>
+</ol>
+
+    <h5>ListDeserializer class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-left-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetson
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

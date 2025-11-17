@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the serialize method from the DartSerializer class, for the Dart programming language.">
+  <title>serialize method - DartSerializer class - jetson library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson.dart</a></li>
+    <li><a href="../../jetson/DartSerializer-class.html">DartSerializer</a></li>
+    <li class="self-crumb">serialize method</li>
+  </ol>
+  <div class="self-name">serialize</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="jetson&#47;DartSerializer-class-sidebar.html"
+    data-below-sidebar="">
+    <div>
+<h1><span class="kind-method">serialize</span> method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+  <div>
+    <ol class="annotation-list">
+        <li>@<a href="https://api.dart.dev/stable/3.9.2/dart-core/override-constant.html">override</a></li>
+    </ol>
+  </div>
+<span class="returntype">void</span>
+<span class="name ">serialize</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="serialize-param-value"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">value</span>, </span></li>
+<li><span class="parameter" id="serialize-param-generator"><span class="type-annotation"><a href="../../jetson/JsonGenerator-class.html">JsonGenerator</a></span> <span class="parameter-name">generator</span>, </span></li>
+<li><span class="parameter" id="serialize-param-serializer"><span class="type-annotation"><a href="../../jetson/SerializerProvider-class.html">SerializerProvider</a></span> <span class="parameter-name">serializer</span></span></li>
+</ol>)
+
+      <div class="features"><span class="feature">override</span></div>
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Serializes an object of type <code>T</code> into JSON using the provided <a href="../../jetson/JsonGenerator-class.html">JsonGenerator</a>
+and <a href="../../jetson/SerializerProvider-class.html">SerializerProvider</a>.</p>
+<p>Implementations should:</p>
+<ul>
+<li>Write fields in the correct JSON structure using <code>generator</code></li>
+<li>Apply the active <a href="../../jetson/NamingStrategy-class.html">NamingStrategy</a> for key transformation</li>
+<li>Use the <a href="../../jetson/SerializerProvider-class.html">SerializerProvider</a> for nested or custom serialization</li>
+</ul>
+<h3 id="example">Example</h3>
+<pre class="language-dart"><code class="language-dart">serializer.serialize(user, generator, provider);
+final json = generator.toJsonString();
+print(json); // {"id":1,"name":"Alice"}
+</code></pre>
+<h3 id="notes">Notes</h3>
+<ul>
+<li>Should write valid JSON output</li>
+<li>May recursively serialize nested objects</li>
+<li>Must maintain structural integrity of objects and collections</li>
+</ul>
+<h3 id="error-handling">Error Handling</h3>
+<p>Implementations should throw descriptive errors if:</p>
+<ul>
+<li>A required field cannot be serialized</li>
+<li>An unsupported type is encountered</li>
+<li>JSON structural consistency cannot be guaranteed</li>
+</ul>
+<h3 id="see-also">See also</h3>
+<ul>
+<li><a href="../../jetson/JsonGenerator-class.html">JsonGenerator</a></li>
+<li><a href="../../jetson/SerializerProvider-class.html">SerializerProvider</a></li>
+<li><a href="../../jetson/JsonDeserializer-class.html">JsonDeserializer</a></li>
+</ul>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">@override
+void serialize(Object value, JsonGenerator generator, SerializerProvider serializer) {
+  final type = value.getClass();
+  final namingStrategy = serializer.getNamingStrategy();
+  final allowNullValues = serializer.getObjectMapper().isFeatureEnabled(SerializationFeature.WRITE_NULL_MAP_VALUES.name);
+
+  &#47;&#47; 1. Prefer custom `toJson()` method if defined
+  final toJsonMethodIfAvailable = type.getMethod(&quot;toJson&quot;);
+  if (toJsonMethodIfAvailable != null &amp;&amp; toJsonMethodIfAvailable.getParameterCount() == 0) {
+    serializer.serialize(toJsonMethodIfAvailable.invoke(value), generator);
+    return;
+  }
+
+  &#47;&#47; 2. Check for [ToJson] annotation
+  final toJson = type.getDirectAnnotation&lt;ToJson&gt;();
+  if (toJson != null) {
+    serializer.serialize(toJson.creator(value), generator);
+    return;
+  }
+
+  generator.writeStartObject();
+
+  &#47;&#47; 3. Reflect over fields
+  for (final field in type.getFields()) {
+    &#47;&#47; Skip ignored fields
+    if (field.hasDirectAnnotation&lt;JsonIgnore&gt;()) continue;
+
+    final jsonField = field.getDirectAnnotation&lt;JsonField&gt;();
+    if (jsonField != null &amp;&amp; jsonField.ignore) continue;
+
+    final fieldName = field.getName();
+    final fieldValue = field.getValue(value);
+
+    &#47;&#47; Skip nulls if not allowed
+    if (fieldValue == null &amp;&amp; !allowNullValues) continue;
+
+    &#47;&#47; Determine final JSON field name
+    final jsonFieldName = jsonField?.name ?? namingStrategy.toJsonName(fieldName);
+
+    &#47;&#47; Handle field-level converter
+    final converterAnn = field.getDirectAnnotation&lt;JsonConverter&gt;();
+    if (converterAnn != null) {
+      final converterInstance = converterAnn.converter;
+      final ct = converterAnn.type;
+
+      final adapter = ct != null ? ct.toClass().getNoArgConstructor()?.newInstance() : converterInstance;
+
+      if (adapter is JsonSerializer) {
+        generator.writeFieldName(jsonFieldName);
+        adapter.serialize(fieldValue, generator, serializer);
+        continue; &#47;&#47; handled by converter
+      }
+    }
+
+    &#47;&#47; Use appropriate serializer for field type
+    final possibleSerializer = serializer.findSerializerForType(field.getReturnClass());
+    if (possibleSerializer != null) {
+      generator.writeFieldName(jsonFieldName);
+      possibleSerializer.serialize(fieldValue, generator, serializer);
+      continue;
+    }
+
+    &#47;&#47; Default serialization path
+    generator.writeFieldName(jsonFieldName);
+    serializer.serialize(fieldValue, generator);
+  }
+
+  generator.writeEndObject();
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson</a></li>
+    <li><a href="../../jetson/DartSerializer-class.html">DartSerializer</a></li>
+    <li class="self-crumb">serialize method</li>
+</ol>
+
+    <h5>DartSerializer class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+</div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetson
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

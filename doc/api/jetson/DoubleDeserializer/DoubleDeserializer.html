@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the DoubleDeserializer.new constructor from Class DoubleDeserializer from the jetson library, for the Dart programming language.">
+  <title>DoubleDeserializer.new constructor - DoubleDeserializer - jetson library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson.dart</a></li>
+    <li><a href="../../jetson/DoubleDeserializer-class.html">DoubleDeserializer</a></li>
+    <li class="self-crumb">DoubleDeserializer.new const constructor</li>
+  </ol>
+  <div class="self-name">DoubleDeserializer.new</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="jetson&#47;DoubleDeserializer-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-constructor">DoubleDeserializer</span> constructor 
+</h1></div>
+
+    <section class="multi-line-signature">
+      const
+      <span class="name ">DoubleDeserializer</span>(<wbr>)
+    </section>
+    
+<section class="desc markdown">
+  <p>A <strong>standard JSON deserializer</strong> for converting values into Dart <a href="https://api.dart.dev/stable/3.9.2/dart-core/double-class.html">double</a> instances.</p>
+<p>This deserializer provides safe, loss-tolerant conversion from JSON numeric
+or string representations into a floating-point value.<br>
+It supports all numeric primitives and gracefully handles invalid or null
+input without throwing.</p>
+<h3 id="usage-example">Usage Example</h3>
+<pre class="language-dart"><code class="language-dart">final parser = JsonParser('3.1415');
+final deserializer = const DoubleDeserializer();
+final result = deserializer.deserialize(parser, ctxt);
+
+print(result); // 3.1415
+</code></pre>
+<h3 id="behavior-overview">Behavior Overview</h3>
+<table>
+<thead>
+<tr>
+<th>Input Value</th>
+<th>Output</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>3.14</code></td>
+<td><code>3.14</code></td>
+<td>Direct double passthrough</td>
+</tr>
+<tr>
+<td><code>42</code></td>
+<td><code>42.0</code></td>
+<td>Converts int to double</td>
+</tr>
+<tr>
+<td><code>"2.718"</code></td>
+<td><code>2.718</code></td>
+<td>Parses numeric string</td>
+</tr>
+<tr>
+<td><code>"abc"</code></td>
+<td><code>null</code></td>
+<td>Invalid numeric parse</td>
+</tr>
+<tr>
+<td><code>null</code></td>
+<td><code>null</code></td>
+<td>Returns <code>null</code> safely</td>
+</tr>
+</tbody>
+</table>
+<h3 id="design-notes">Design Notes</h3>
+<ul>
+<li>Never throws on invalid numeric formats — uses <a href="https://api.dart.dev/stable/3.9.2/dart-core/double/tryParse.html">double.tryParse</a>.</li>
+<li>Converts any <a href="https://api.dart.dev/stable/3.9.2/dart-core/num-class.html">num</a> to <a href="https://api.dart.dev/stable/3.9.2/dart-core/double-class.html">double</a> via <a href="https://api.dart.dev/stable/3.9.2/dart-core/num/toDouble.html">num.toDouble</a>.</li>
+<li>Intended for flexible schema and tolerant deserialization pipelines.</li>
+<li>Precision is determined by the platform IEEE 754 double implementation.</li>
+</ul>
+<h3 id="see-also">See Also</h3>
+<ul>
+<li><a href="../../jetson/NumDeserializer-class.html">NumDeserializer</a></li>
+<li><a href="../../jetson/IntDeserializer-class.html">IntDeserializer</a></li>
+<li><a href="../../jetson/StringDeserializer-class.html">StringDeserializer</a></li>
+<li><a href="../../jetson/JsonDeserializer-class.html">JsonDeserializer</a></li>
+</ul>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">const DoubleDeserializer();</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson</a></li>
+    <li><a href="../../jetson/DoubleDeserializer-class.html">DoubleDeserializer</a></li>
+    <li class="self-crumb">DoubleDeserializer.new const constructor</li>
+</ol>
+
+    <h5>DoubleDeserializer class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-left-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetson
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="jetson API docs, for the Dart programming language.">
+  <title>jetson - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://jetleaf.hapnium.com">jetson package</a></li>
+  </ol>
+  <div class="self-name">jetson</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <h1 id="-jetson--json-object-mapping--serialization">📊 Jetson — JSON Object Mapping &amp; Serialization</h1>
+<p><a href="https://pub.dev/packages/jetson"><img src="https://img.shields.io/badge/version-1.0.0-blue" alt="pub package"></a>
+<a href="#license"><img src="https://img.shields.io/badge/license-JetLeaf-green" alt="License"></a>
+<a href="https://dart.dev"><img src="https://img.shields.io/badge/sdk-%3E%3D3.9.0-blue" alt="Dart SDK"></a></p>
+<p>Flexible and extensible JSON serialization/deserialization library inspired by Jackson, with support for custom converters, naming strategies, and XML/YAML support.</p>
+<h2 id="-overview">📋 Overview</h2>
+<p><code>jetson</code> provides comprehensive object mapping capabilities:</p>
+<ul>
+<li><strong>JSON Serialization/Deserialization</strong> — Object ↔ JSON conversion</li>
+<li><strong>Custom Annotations</strong> — <code>@JsonProperty</code>, <code>@JsonIgnore</code>, etc.</li>
+<li><strong>Type-Safe Mapping</strong> — Generics support with runtime type information</li>
+<li><strong>Naming Strategies</strong> — snake_case, camelCase, kebab-case conversion</li>
+<li><strong>Custom Converters</strong> — User-defined serialization logic</li>
+<li><strong>XML &amp; YAML Support</strong> — Multi-format serialization</li>
+<li><strong>Date/Time Handling</strong> — ISO-8601 and custom date formats</li>
+<li><strong>JSON Tree Traversal</strong> — JSONNode for flexible parsing</li>
+<li><strong>Streaming JSON</strong> — String generators and parsers</li>
+</ul>
+<h2 id="-quick-start">🚀 Quick Start</h2>
+<h3 id="installation">Installation</h3>
+<pre class="language-yaml"><code class="language-yaml">dependencies:
+  jetson:
+    path: ./jetson
+</code></pre>
+<h3 id="basic-serializationdeserialization">Basic Serialization/Deserialization</h3>
+<pre class="language-dart"><code class="language-dart">import 'package:jetson/jetson.dart';
+
+class User {
+  final String id;
+  final String name;
+  final String email;
+  final int age;
+
+  User({required this.id, required this.name, required this.email, required this.age});
+}
+
+void main() {
+  final mapper = JetsonObjectMapper();
+
+  // Serialize to JSON
+  final user = User(
+    id: '123',
+    name: 'Alice',
+    email: 'alice@example.com',
+    age: 30,
+  );
+
+  final json = mapper.writeValueAsString(user);
+  print(json);
+  // {"id":"123","name":"Alice","email":"alice@example.com","age":30}
+
+  // Deserialize from JSON
+  final jsonString = '{"id":"456","name":"Bob","email":"bob@example.com","age":25}';
+  final deserializedUser = mapper.readValue(
+    jsonString,
+    Class&lt;User&gt;(),
+  );
+
+  print(deserializedUser.name);  // Bob
+}
+</code></pre>
+<h2 id="-key-features">📚 Key Features</h2>
+<h3 id="1-custom-annotations">1. Custom Annotations</h3>
+<p><strong>Control serialization behavior</strong>:</p>
+<pre class="language-dart"><code class="language-dart">import 'package:jetson/jetson.dart';
+
+class Employee {
+  @JsonProperty('emp_id')
+  final String id;
+
+  final String name;
+
+  @JsonProperty(required: true)
+  final String department;
+
+  @JsonIgnore()
+  final String? internalNotes;
+
+  @JsonProperty(serialize: false)
+  final String? tempValue;
+
+  Employee({
+    required this.id,
+    required this.name,
+    required this.department,
+    this.internalNotes,
+    this.tempValue,
+  });
+}
+
+final emp = Employee(
+  id: 'E001',
+  name: 'John',
+  department: 'Engineering',
+  internalNotes: 'Note',
+);
+
+final mapper = JetsonObjectMapper();
+final json = mapper.writeValueAsString(emp);
+// {"emp_id":"E001","name":"John","department":"Engineering"}
+// Note: internalNotes and tempValue are ignored
+</code></pre>
+<h3 id="2-naming-strategies">2. Naming Strategies</h3>
+<p><strong>Automatic field name conversion</strong>:</p>
+<pre class="language-dart"><code class="language-dart">import 'package:jetson/jetson.dart';
+
+class Product {
+  final String productName;
+  final int stockQuantity;
+  final double unitPrice;
+
+  Product({
+    required this.productName,
+    required this.stockQuantity,
+    required this.unitPrice,
+  });
+}
+
+// snake_case
+final mapperSnake = JetsonObjectMapper()
+  .setNamingStrategy(SnakeCaseNamingStrategy());
+
+// camelCase (default)
+final mapperCamel = JetsonObjectMapper()
+  .setNamingStrategy(CamelCaseNamingStrategy());
+
+// kebab-case
+final mapperKebab = JetsonObjectMapper()
+  .setNamingStrategy(KebabCaseNamingStrategy());
+
+final product = Product(
+  productName: 'Laptop',
+  stockQuantity: 50,
+  unitPrice: 999.99,
+);
+
+// snake_case: {"product_name":"Laptop","stock_quantity":50,"unit_price":999.99}
+// camelCase: {"productName":"Laptop","stockQuantity":50,"unitPrice":999.99}
+// kebab-case: {"product-name":"Laptop","stock-quantity":50,"unit-price":999.99}
+</code></pre>
+<h3 id="3-custom-converters">3. Custom Converters</h3>
+<p><strong>User-defined serialization logic</strong>:</p>
+<pre class="language-dart"><code class="language-dart">import 'package:jetson/jetson.dart';
+
+class DateConverter implements JsonConverter&lt;DateTime&gt; {
+  @override
+  DateTime deserialize(dynamic json, DeserializationContext context) {
+    if (json is String) {
+      return DateTime.parse(json);
+    }
+    throw FormatException('Invalid date format');
+  }
+
+  @override
+  dynamic serialize(DateTime value, SerializationContext context) {
+    return value.toIso8601String();
+  }
+}
+
+class Event {
+  final String name;
+  final DateTime date;
+
+  Event({required this.name, required this.date});
+}
+
+final mapper = JetsonObjectMapper()
+  .registerConverter(DateTime, DateConverter());
+
+final event = Event(
+  name: 'Conference',
+  date: DateTime(2025, 6, 15),
+);
+
+final json = mapper.writeValueAsString(event);
+// {"name":"Conference","date":"2025-06-15T00:00:00.000"}
+</code></pre>
+<h3 id="4-nested-objects">4. Nested Objects</h3>
+<p><strong>Handle complex hierarchies</strong>:</p>
+<pre class="language-dart"><code class="language-dart">class Address {
+  final String street;
+  final String city;
+  final String zipCode;
+
+  Address({
+    required this.street,
+    required this.city,
+    required this.zipCode,
+  });
+}
+
+class Person {
+  final String name;
+  final Address address;
+  final List&lt;String&gt; phoneNumbers;
+
+  Person({
+    required this.name,
+    required this.address,
+    required this.phoneNumbers,
+  });
+}
+
+final mapper = JetsonObjectMapper();
+
+final person = Person(
+  name: 'Alice',
+  address: Address(
+    street: '123 Main St',
+    city: 'Springfield',
+    zipCode: '12345',
+  ),
+  phoneNumbers: ['555-1234', '555-5678'],
+);
+
+final json = mapper.writeValueAsString(person);
+// {
+//   "name": "Alice",
+//   "address": {
+//     "street": "123 Main St",
+//     "city": "Springfield",
+//     "zipCode": "12345"
+//   },
+//   "phoneNumbers": ["555-1234", "555-5678"]
+// }
+</code></pre>
+<h3 id="5-json-tree-navigation">5. JSON Tree Navigation</h3>
+<p><strong>Flexible JSON parsing with JSONNode</strong>:</p>
+<pre class="language-dart"><code class="language-dart">import 'package:jetson/jetson.dart';
+
+void main() {
+  final jsonString = '''
+  {
+    "users": [
+      {"id": 1, "name": "Alice", "email": "alice@example.com"},
+      {"id": 2, "name": "Bob", "email": "bob@example.com"}
+    ]
+  }
+  ''';
+
+  final mapper = JetsonObjectMapper();
+  final root = mapper.readTree(jsonString);
+
+  // Navigate the tree
+  final users = root.get('users');
+  for (int i = 0; i &lt; users.size(); i++) {
+    final user = users.get(i);
+    print('${user.get('name').asText()}: ${user.get('email').asText()}');
+  }
+}
+</code></pre>
+<h3 id="6-xml-support">6. XML Support</h3>
+<p><strong>Serialize/deserialize XML</strong>:</p>
+<pre class="language-dart"><code class="language-dart">import 'package:jetson/jetson.dart';
+
+class Book {
+  final String title;
+  final String author;
+  final int year;
+
+  Book({required this.title, required this.author, required this.year});
+}
+
+final mapper = JetsonObjectMapper();
+
+final book = Book(title: 'Dart Guide', author: 'Jane', year: 2024);
+
+// Serialize to XML
+final xml = mapper.writeValueAsXml(book);
+/*
+&lt;?xml version="1.0"?&gt;
+&lt;Book&gt;
+  &lt;title&gt;Dart Guide&lt;/title&gt;
+  &lt;author&gt;Jane&lt;/author&gt;
+  &lt;year&gt;2024&lt;/year&gt;
+&lt;/Book&gt;
+*/
+
+// Deserialize from XML
+final parsed = mapper.readValueFromXml(xml, Class&lt;Book&gt;());
+print(parsed.title);  // Dart Guide
+</code></pre>
+<h3 id="7-yaml-support">7. YAML Support</h3>
+<p><strong>Serialize/deserialize YAML</strong>:</p>
+<pre class="language-dart"><code class="language-dart">final yaml = '''
+title: Dart Guide
+author: Jane
+year: 2024
+''';
+
+final mapper = JetsonObjectMapper();
+final book = mapper.readValueFromYaml(yaml, Class&lt;Book&gt;());
+print(book.author);  // Jane
+
+// Serialize back to YAML
+final yamlOutput = mapper.writeValueAsYaml(book);
+</code></pre>
+<h3 id="8-builder-configuration">8. Builder Configuration</h3>
+<p><strong>Fluent mapper configuration</strong>:</p>
+<pre class="language-dart"><code class="language-dart">final mapper = JetsonObjectMapperBuilder()
+  .setNamingStrategy(SnakeCaseNamingStrategy())
+  .registerConverter(DateTime, DateConverter())
+  .disableFeature(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+  .enableFeature(SerializationFeature.INDENT_OUTPUT)
+  .enableFeature(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+  .build();
+
+final json = mapper.writeValueAsString(obj);
+</code></pre>
+<h2 id="-naming-strategies">📖 Naming Strategies</h2>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Example</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SnakeCaseNamingStrategy</code></td>
+<td><code>user_name</code></td>
+<td>Python/SQL compatibility</td>
+</tr>
+<tr>
+<td><code>CamelCaseNamingStrategy</code></td>
+<td><code>userName</code></td>
+<td>JavaScript/JSON default</td>
+</tr>
+<tr>
+<td><code>KebabCaseNamingStrategy</code></td>
+<td><code>user-name</code></td>
+<td>YAML/properties files</td>
+</tr>
+<tr>
+<td><code>PascalCaseNamingStrategy</code></td>
+<td><code>UserName</code></td>
+<td>Java compatibility</td>
+</tr>
+</tbody>
+</table>
+<h2 id="-common-patterns">🎯 Common Patterns</h2>
+<h3 id="pattern-1-api-requestresponse-mapping">Pattern 1: API Request/Response Mapping</h3>
+<pre class="language-dart"><code class="language-dart">class CreateUserRequest {
+  final String name;
+  final String email;
+
+  CreateUserRequest({required this.name, required this.email});
+}
+
+class UserResponse {
+  final String id;
+  final String name;
+  final String email;
+  final DateTime createdAt;
+
+  UserResponse({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.createdAt,
+  });
+}
+
+@RestController('/api/users')
+class UserController {
+  final UserService _service;
+  final JetsonObjectMapper _mapper;
+
+  @Autowired
+  UserController(this._service, this._mapper);
+
+  @PostMapping('/')
+  Future&lt;HttpResponse&gt; createUser(@RequestBody String json) async {
+    final request = _mapper.readValue(json, Class&lt;CreateUserRequest&gt;());
+    final user = await _service.createUser(request.name, request.email);
+    final response = UserResponse(
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      createdAt: user.createdAt,
+    );
+    return HttpResponse.created(_mapper.writeValueAsString(response));
+  }
+}
+</code></pre>
+<h3 id="pattern-2-database--json-mapping">Pattern 2: Database ↔ JSON Mapping</h3>
+<pre class="language-dart"><code class="language-dart">class DatabaseRecord {
+  @JsonProperty('user_id')
+  final String userId;
+
+  @JsonProperty('created_at')
+  final DateTime createdAt;
+
+  @JsonIgnore()
+  final String? internalId;
+
+  DatabaseRecord({
+    required this.userId,
+    required this.createdAt,
+    this.internalId,
+  });
+}
+</code></pre>
+<h3 id="pattern-3-configuration-file-loading">Pattern 3: Configuration File Loading</h3>
+<pre class="language-dart"><code class="language-dart">class AppConfig {
+  final String appName;
+  final int serverPort;
+  final String databaseUrl;
+  final Map&lt;String, String&gt; features;
+
+  AppConfig({
+    required this.appName,
+    required this.serverPort,
+    required this.databaseUrl,
+    required this.features,
+  });
+}
+
+// Load from YAML or JSON
+final configJson = File('config/app.json').readAsStringSync();
+final mapper = JetsonObjectMapper();
+final config = mapper.readValue(configJson, Class&lt;AppConfig&gt;());
+</code></pre>
+<h2 id="-common-issues">⚠️ Common Issues</h2>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Cause</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Type mismatch</td>
+<td>JSON type doesn't match field type</td>
+<td>Provide custom converter</td>
+</tr>
+<tr>
+<td>Unknown property error</td>
+<td>Extra properties in JSON</td>
+<td>Use <code>FAIL_ON_UNKNOWN_PROPERTIES</code> feature</td>
+</tr>
+<tr>
+<td>Null values included</td>
+<td>Default serialization behavior</td>
+<td>Use <code>@JsonProperty(required: false)</code></td>
+</tr>
+<tr>
+<td>Date format errors</td>
+<td>Invalid date format</td>
+<td>Register custom DateConverter</td>
+</tr>
+</tbody>
+</table>
+<h2 id="-best-practices">📋 Best Practices</h2>
+<h3 id="-do">✅ DO</h3>
+<ul>
+<li>Use <code>@JsonProperty</code> to rename fields</li>
+<li>Create custom converters for complex types</li>
+<li>Use naming strategies for API compatibility</li>
+<li>Validate data after deserialization</li>
+<li>Test serialization/deserialization roundtrips</li>
+<li>Document custom converters</li>
+</ul>
+<h3 id="-dont">❌ DON'T</h3>
+<ul>
+<li>Use generic <code>dynamic</code> types</li>
+<li>Ignore serialization errors</li>
+<li>Share mapper instances without thread safety consideration</li>
+<li>Rely on field order</li>
+<li>Mix multiple naming strategies in one object</li>
+</ul>
+<h2 id="-dependencies">📦 Dependencies</h2>
+<ul>
+<li><strong><code>jetleaf_lang</code></strong> — Language utilities</li>
+<li><strong><code>jetleaf_convert</code></strong> — Type conversion</li>
+<li><strong><code>meta</code></strong> — Annotations</li>
+</ul>
+<h2 id="-license">📄 License</h2>
+<p>This package is part of the JetLeaf Framework. See LICENSE in the root directory.</p>
+<h2 id="-related-packages">🔗 Related Packages</h2>
+<ul>
+<li><strong><code>jetleaf_web</code></strong> — HTTP integration</li>
+<li><strong><code>jetleaf_convert</code></strong> — Type conversion utilities</li>
+<li><strong><code>jetleaf_env</code></strong> — Configuration</li>
+</ul>
+<h2 id="-support">📞 Support</h2>
+<p>For issues, questions, or contributions, visit:</p>
+<ul>
+<li><a href="https://github.com/jetleaf/jetson/issues">GitHub Issues</a></li>
+<li><a href="https://jetleaf.hapnium.com/docs/jetson">Documentation</a></li>
+<li><a href="https://forum.jetleaf.hapnium.com">Community Forum</a></li>
+</ul>
+<hr>
+<p><strong>Created with ❤️ by <a href="https://hapnium.com">Hapnium</a></strong></p>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="jetson">
+  <span class="name"><a href="jetson/">jetson</a></span> 
+
+</dt>
+<dd>Jetson JSON Mapping Library
+</dd>
+
+        </dl>
+      </section>
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="https://jetleaf.hapnium.com">jetson package</a></li>
+</ol>
+
+    <h5 class="hidden-xs"><span class="package-name">jetson</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="jetson/">jetson</a></li>
+</ol>
+
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+</main>
+<footer>
+  <span class="no-break">
+    jetson
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the NamingStrategy class from the jetson library, for the Dart programming language.">
+  <title>NamingStrategy class - jetson library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">jetson</a></li>
+    <li><a href="../jetson/">jetson.dart</a></li>
+    <li class="self-crumb">NamingStrategy class</li>
+  </ol>
+  <div class="self-name">NamingStrategy</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="jetson&#47;jetson-library-sidebar.html"
+    data-below-sidebar="jetson&#47;NamingStrategy-class-sidebar.html">
+    <div>
+<h1><span class="kind-class">NamingStrategy</span> class 
+    <a href="https://dart.dev/language/class-modifiers#abstract" class="feature feature-abstract" title="This type can not be directly constructed.">abstract</a>
+    <a href="https://dart.dev/language/class-modifiers#interface" class="feature feature-interface" title="This class can only be implemented (not extended or mixed in).">interface</a>
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>Provides a unified interface for <strong>field name transformation</strong> between
+Dart-style and JSON-style representations.</p>
+<p>The <a href="../jetson/NamingStrategy-class.html">NamingStrategy</a> defines the transformation rules used to map
+Dart identifiers (typically in <code>camelCase</code>) to JSON-compatible
+names (such as <code>snake_case</code> or <code>kebab-case</code>) and back.</p>
+<h3 id="overview">Overview</h3>
+<p>Implementations of this interface provide predictable and reversible
+conversions between internal Dart field names and external JSON keys.</p>
+<p>This is a <strong>core abstraction</strong> used by JetLeaf serialization systems
+such as <code>JsonMapper</code>, <code>ObjectCodec</code>, and other reflection-based
+adapters that require naming consistency.</p>
+<h3 id="example">Example</h3>
+<pre class="language-dart"><code class="language-dart">final strategy = SnakeCaseNamingStrategy();
+
+final jsonKey = strategy.toJsonName('userName'); // 'user_name'
+final dartField = strategy.toDartName('user_name'); // 'userName'
+</code></pre>
+<h3 id="common-strategies">Common Strategies</h3>
+<ul>
+<li><strong>Snake case</strong> (<code>userName</code> → <code>user_name</code>)</li>
+<li><strong>Kebab case</strong> (<code>userName</code> → <code>user-name</code>)</li>
+<li><strong>Pascal case</strong> (<code>userName</code> → <code>UserName</code>)</li>
+</ul>
+<h3 id="implementation-notes">Implementation Notes</h3>
+<ul>
+<li>Implementations must be <strong>deterministic</strong> (same input yields same output)</li>
+<li>The transformation must be <strong>reversible</strong> (see <a href="../jetson/NamingStrategy/toDartName.html">toDartName</a>)</li>
+<li>Should handle <strong>acronyms</strong>, <strong>numbers</strong>, and <strong>edge cases</strong> gracefully</li>
+</ul>
+<h3 id="see-also">See also</h3>
+<ul>
+<li><a href="../jetson/NamingStrategy/toJsonName.html">toJsonName</a></li>
+<li><a href="../jetson/NamingStrategy/toDartName.html">toDartName</a></li>
+</ul>
+</section>
+
+
+    <section>
+      <dl class="dl-horizontal">
+        
+
+        
+        
+
+          <dt>Implementers</dt>
+          <dd><ul class="comma-separated clazz-relationships">
+              <li><a href="../jetson/CamelCaseNamingStrategy-class.html">CamelCaseNamingStrategy</a></li>
+              <li><a href="../jetson/KebabCaseNamingStrategy-class.html">KebabCaseNamingStrategy</a></li>
+              <li><a href="../jetson/SnakeCaseNamingStrategy-class.html">SnakeCaseNamingStrategy</a></li>
+          </ul></dd>
+
+        
+        
+
+
+      </dl>
+    </section>
+
+    
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="instance-properties">
+    <h2>Properties</h2>
+    <dl class="properties">
+        <dt id="hashCode" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/int-class.html">int</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  The hash code for this object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="runtimeType" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/Type-class.html">Type</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  A representation of the runtime type of the object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="noSuchMethod" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Invoked when a nonexistent method or property is accessed.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="toDartName" class="callable">
+  <span class="name"><a href="../jetson/NamingStrategy/toDartName.html">toDartName</a></span><span class="signature">(<wbr><span class="parameter" id="toDartName-param-name"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Converts a JSON field name back into a Dart-compatible identifier.
+  
+
+</dd>
+
+        <dt id="toJsonName" class="callable">
+  <span class="name"><a href="../jetson/NamingStrategy/toJsonName.html">toJsonName</a></span><span class="signature">(<wbr><span class="parameter" id="toJsonName-param-name"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Converts a Dart field name into a JSON-compatible name.
+  
+
+</dd>
+
+        <dt id="toString" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A string representation of this object.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="operators">
+    <h2>Operators</h2>
+    <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  The equality operator.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section class="summary offset-anchor" id="static-properties">
+    <h2>Static Properties</h2>
+    <dl class="properties">
+        <dt id="CLASS" class="property">
+  <span class="name"><a href="../jetson/NamingStrategy/CLASS.html">CLASS</a></span>
+  <span class="signature">&#8594; <a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../jetson/NamingStrategy-class.html">NamingStrategy</a></span>&gt;</span></span>
+  
+
+</dt>
+<dd>
+  Represents the <a href="../jetson/NamingStrategy-class.html">NamingStrategy</a> type for reflection and framework-level
+type resolution within the Jetson serialization system.
+  <div class="features"><span class="feature">final</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">jetson</a></li>
+    <li><a href="../jetson/">jetson</a></li>
+    <li class="self-crumb">NamingStrategy class</li>
+</ol>
+
+    <h5>jetson library</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetson
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

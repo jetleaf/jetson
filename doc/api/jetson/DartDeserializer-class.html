@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the DartDeserializer class from the jetson library, for the Dart programming language.">
+  <title>DartDeserializer class - jetson library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">jetson</a></li>
+    <li><a href="../jetson/">jetson.dart</a></li>
+    <li class="self-crumb">DartDeserializer class</li>
+  </ol>
+  <div class="self-name">DartDeserializer</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="jetson&#47;jetson-library-sidebar.html"
+    data-below-sidebar="jetson&#47;DartDeserializer-class-sidebar.html">
+    <div>
+<h1><span class="kind-class">DartDeserializer</span> class 
+    <a href="https://dart.dev/language/class-modifiers#final" class="feature feature-final" title="This class can neither be extended, implemented, nor mixed in.">final</a>
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>A <strong>reflection-based JSON deserializer</strong> for arbitrary Dart objects.</p>
+<p>This deserializer uses <a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a> metadata and annotations such as <a href="../jetson/JsonField-class.html">JsonField</a>,
+<a href="../jetson/JsonIgnore-class.html">JsonIgnore</a>, and <a href="../jetson/JsonConverter-class.html">JsonConverter</a> to reconstruct Dart objects from JSON maps.
+It seamlessly integrates with Jetleaf's reflection system and naming strategy.</p>
+<h3 id="core-features">Core Features</h3>
+<ul>
+<li>Reflective field population for any Dart object type.</li>
+<li>Supports <code>fromJson(Map&lt;String, dynamic&gt;)</code> and <code>@JsonCreator</code> constructors.</li>
+<li>Skips or defaults missing fields based on <a href="../jetson/JsonField-class.html">JsonField</a> annotations.</li>
+<li>Applies custom converters declared via <a href="../jetson/JsonConverter-class.html">JsonConverter</a>.</li>
+<li>Honors naming strategy transformations between JSON and Dart fields.</li>
+<li>Optionally ignores unknown JSON properties.</li>
+</ul>
+<h3 id="usage-example">Usage Example</h3>
+<pre class="language-dart"><code class="language-dart">@JsonSerializable()
+class Person {
+  final String name;
+  final int age;
+
+  const Person(this.name, this.age);
+
+  factory Person.fromJson(Map&lt;String, dynamic&gt; json) =&gt; Person(
+    json['name'] as String,
+    json['age'] as int,
+  );
+}
+
+final jsonParser = JsonParser.fromString('{"name":"Alice","age":30}');
+final deserializer = DartDeserializer(Class&lt;Person&gt;(Person, "Person"));
+final ctxt = DeserializationContext();
+
+final person = deserializer.deserialize(jsonParser, ctxt) as Person;
+print(person.name); // Alice
+</code></pre>
+<h3 id="behavior-overview">Behavior Overview</h3>
+<table>
+<thead>
+<tr>
+<th>Behavior</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@JsonCreator</code></td>
+<td>Invoked for object construction if present</td>
+</tr>
+<tr>
+<td><code>fromJson(Map)</code></td>
+<td>Fallback factory method</td>
+</tr>
+<tr>
+<td><code>@JsonIgnore</code></td>
+<td>Field skipped during mapping</td>
+</tr>
+<tr>
+<td><code>@JsonField(defaultValue)</code></td>
+<td>Default applied if field missing</td>
+</tr>
+<tr>
+<td><code>@JsonField(required: true)</code></td>
+<td>Throws on missing field</td>
+</tr>
+<tr>
+<td><code>@JsonConverter</code></td>
+<td>Applies field-level converter</td>
+</tr>
+<tr>
+<td>Unknown keys</td>
+<td>Ignored if <code>FAIL_ON_UNKNOWN_PROPERTIES</code> disabled</td>
+</tr>
+</tbody>
+</table>
+<h3 id="design-notes">Design Notes</h3>
+<ul>
+<li>Complements <a href="../jetson/DartSerializer-class.html">DartSerializer</a> for symmetrical reflection-based mapping.</li>
+<li>Uses contextual <a href="../jetson/NamingStrategy-class.html">NamingStrategy</a> to align key formats.</li>
+<li>Resilient against missing constructors or unknown types.</li>
+<li>Prioritizes explicit annotations before fallback reflection.</li>
+</ul>
+<h3 id="see-also">See Also</h3>
+<ul>
+<li><a href="../jetson/JsonDeserializer-class.html">JsonDeserializer</a></li>
+<li><a href="../jetson/JsonConverter-class.html">JsonConverter</a></li>
+<li><a href="../jetson/JsonField-class.html">JsonField</a></li>
+<li><a href="../jetson/DeserializationFeature.html">DeserializationFeature</a></li>
+<li><a href="../jetson/NamingStrategy-class.html">NamingStrategy</a></li>
+</ul>
+</section>
+
+
+    <section>
+      <dl class="dl-horizontal">
+        
+
+        
+  <dt>Implemented types</dt>
+  <dd>
+    <ul class="comma-separated clazz-relationships">
+        <li><a href="../jetson/JsonDeserializer-class.html">JsonDeserializer</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a></span>&gt;</span></li>
+    </ul>
+  </dd>
+        
+
+
+        
+        
+
+
+      </dl>
+    </section>
+
+    
+  <section class="summary offset-anchor" id="constructors">
+    <h2>Constructors</h2>
+    <dl class="constructor-summary-list">
+        <dt id="DartDeserializer.new" class="callable">
+          <span class="name"><a href="../jetson/DartDeserializer/DartDeserializer.html">DartDeserializer.new</a></span><span class="signature">(<span class="parameter" id="-param-_type"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a></span> <span class="parameter-name">_type</span></span>)</span>
+        </dt>
+        <dd>
+          Creates a new <a href="../jetson/DartDeserializer-class.html">DartDeserializer</a> for the given type.
+        </dd>
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="instance-properties">
+    <h2>Properties</h2>
+    <dl class="properties">
+        <dt id="hashCode" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/int-class.html">int</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  The hash code for this object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="runtimeType" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/Type-class.html">Type</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  A representation of the runtime type of the object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="canDeserialize" class="callable">
+  <span class="name"><a href="../jetson/DartDeserializer/canDeserialize.html">canDeserialize</a></span><span class="signature">(<wbr><span class="parameter" id="canDeserialize-param-type"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a></span> <span class="parameter-name">type</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns whether the given <code>type</code> can be <strong>deserialized</strong> by the system.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="deserialize" class="callable">
+  <span class="name"><a href="../jetson/DartDeserializer/deserialize.html">deserialize</a></span><span class="signature">(<wbr><span class="parameter" id="deserialize-param-parser"><span class="type-annotation"><a href="../jetson/JsonParser-class.html">JsonParser</a></span> <span class="parameter-name">parser</span>, </span><span class="parameter" id="deserialize-param-ctxt"><span class="type-annotation"><a href="../jetson/DeserializationContext-class.html">DeserializationContext</a></span> <span class="parameter-name">ctxt</span>, </span><span class="parameter" id="deserialize-param-toClass"><span class="type-annotation"><a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a></span> <span class="parameter-name">toClass</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a>?</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Deserializes an object of type <code>T</code> using the given <a href="../jetson/JsonParser-class.html">JsonParser</a> and
+<a href="../jetson/DeserializationContext-class.html">DeserializationContext</a>.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="noSuchMethod" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Invoked when a nonexistent method or property is accessed.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="toClass" class="callable">
+  <span class="name"><a href="../jetson/DartDeserializer/toClass.html">toClass</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Provides a contract for types capable of exposing their associated
+runtime <a href="https://pub.dev/documentation/jetleaf_lang/1.0.1/lang/Class-class.html">Class</a> metadata representation within the JetLeaf reflection system.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="toString" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A string representation of this object.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="operators">
+    <h2>Operators</h2>
+    <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.9.2/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.9.2/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  The equality operator.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+    
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">jetson</a></li>
+    <li><a href="../jetson/">jetson</a></li>
+    <li class="self-crumb">DartDeserializer class</li>
+</ol>
+
+    <h5>jetson library</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetson
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

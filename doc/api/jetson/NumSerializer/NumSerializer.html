@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the NumSerializer.new constructor from Class NumSerializer from the jetson library, for the Dart programming language.">
+  <title>NumSerializer.new constructor - NumSerializer - jetson library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson.dart</a></li>
+    <li><a href="../../jetson/NumSerializer-class.html">NumSerializer</a></li>
+    <li class="self-crumb">NumSerializer.new const constructor</li>
+  </ol>
+  <div class="self-name">NumSerializer.new</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="jetson&#47;NumSerializer-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-constructor">NumSerializer</span> constructor 
+</h1></div>
+
+    <section class="multi-line-signature">
+      const
+      <span class="name ">NumSerializer</span>(<wbr>)
+    </section>
+    
+<section class="desc markdown">
+  <p>A <strong>standard JSON serializer</strong> for Dart <a href="https://api.dart.dev/stable/3.9.2/dart-core/num-class.html">num</a> values, supporting both
+<a href="https://api.dart.dev/stable/3.9.2/dart-core/int-class.html">int</a> and <a href="https://api.dart.dev/stable/3.9.2/dart-core/double-class.html">double</a> types during serialization.</p>
+<p>This serializer is a polymorphic numeric encoder capable of writing
+integers and floating-point numbers as valid JSON numbers.</p>
+<h3 id="usage-example">Usage Example</h3>
+<pre class="language-dart"><code class="language-dart">final generator = JsonGenerator();
+const serializer = NumSerializer();
+
+serializer.serialize(10, generator, SerializerProvider());
+serializer.serialize(2.718, generator, SerializerProvider());
+</code></pre>
+<h3 id="behavior-overview">Behavior Overview</h3>
+<table>
+<thead>
+<tr>
+<th>Input Dart Value</th>
+<th>JSON Output</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>10</code></td>
+<td><code>10</code></td>
+<td>Integer form</td>
+</tr>
+<tr>
+<td><code>2.718</code></td>
+<td><code>2.718</code></td>
+<td>Floating-point form</td>
+</tr>
+<tr>
+<td><code>0</code></td>
+<td><code>0</code></td>
+<td>Zero preserved</td>
+</tr>
+</tbody>
+</table>
+<h3 id="design-notes">Design Notes</h3>
+<ul>
+<li>Provides flexibility for numeric fields that may vary in type.</li>
+<li>Delegates precision handling to <a href="../../jetson/JsonGenerator-class.html">JsonGenerator</a>.</li>
+<li>Useful in deserialization scenarios where JSON number type is ambiguous.</li>
+</ul>
+<h3 id="see-also">See Also</h3>
+<ul>
+<li><a href="../../jetson/JsonSerializer-class.html">JsonSerializer</a></li>
+<li><a href="../../jetson/JsonGenerator-class.html">JsonGenerator</a></li>
+<li><a href="../../jetson/DoubleSerializer-class.html">DoubleSerializer</a></li>
+</ul>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">const NumSerializer();</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">jetson</a></li>
+    <li><a href="../../jetson/">jetson</a></li>
+    <li><a href="../../jetson/NumSerializer-class.html">NumSerializer</a></li>
+    <li class="self-crumb">NumSerializer.new const constructor</li>
+</ol>
+
+    <h5>NumSerializer class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-left-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    jetson
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+
