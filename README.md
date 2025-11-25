@@ -26,8 +26,7 @@ Flexible and extensible JSON serialization/deserialization library inspired by J
 
 ```yaml
 dependencies:
-  jetson:
-    path: ./jetson
+  jetson: ^1.0.0
 ```
 
 ### Basic Serialization/Deserialization

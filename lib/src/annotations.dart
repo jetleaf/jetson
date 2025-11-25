@@ -15,15 +15,15 @@
 import 'package:jetleaf_lang/lang.dart';
 import 'package:meta/meta_meta.dart';
 
-import 'base.dart';
+import 'serialization/object_serializable.dart';
 
 /// {@template json_converter}
 /// Annotation used to associate a custom JSON converter with a class field or property.
 ///
 /// This is especially useful when a field cannot be serialized or deserialized
-/// using the default behavior and needs a specific [JsonSerializable] implementation.
+/// using the default behavior and needs a specific [ObjectSerializable] implementation.
 ///
-/// The [converter] should point to a class that extends [JsonSerializable<T>].
+/// The [converter] should point to a class that extends [ObjectSerializable<T>].
 ///
 /// ### Example:
 /// ```dart
@@ -39,15 +39,16 @@ import 'base.dart';
 ///
 /// This annotation is part of the Jetleaf Reflection system.
 /// {@endtemplate}
+@Generic(JsonConverter)
 @Target({TargetKind.field, TargetKind.getter, TargetKind.setter})
-class JsonConverter<T extends JsonSerializable> extends ReflectableAnnotation {
+class JsonConverter<T extends ObjectSerializable> extends ReflectableAnnotation {
   /// The type of the converter class to use for (de)serialization.
   ///
-  /// Must be a subclass of [JsonSerializable].
+  /// Must be a subclass of [ObjectSerializable].
   final ClassType<T>? type;
 
   /// Optional instance of a converter to use directly.
-  final JsonSerializable? converter;
+  final ObjectSerializable? converter;
   
   /// Creates a new [JsonConverter] annotation.
   ///
@@ -267,6 +268,7 @@ class JsonIgnore extends ReflectableAnnotation {
 /// - Does **not** perform validation; it only provides a factory function.
 ///
 /// {@endtemplate}
+@Generic(FromJson)
 @Target({TargetKind.classType})
 class FromJson<T> extends ReflectableAnnotation {
   /// A function that converts a JSON map to an instance of the annotated class.
@@ -322,6 +324,7 @@ class FromJson<T> extends ReflectableAnnotation {
 /// - Does **not** perform validation; it only provides a mapping function.
 ///
 /// {@endtemplate}
+@Generic(ToJson)
 @Target({TargetKind.classType})
 class ToJson<T> extends ReflectableAnnotation {
   /// A function that converts an instance of the annotated class to a JSON map.

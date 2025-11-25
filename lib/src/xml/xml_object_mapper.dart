@@ -14,8 +14,10 @@
 
 import 'package:jetleaf_lang/lang.dart';
 
-import '../base.dart';
-import 'xml_node.dart';
+import '../base/object_mapper.dart';
+import 'generator/xml_generator.dart';
+import 'node/xml_node.dart';
+import 'parser/xml_parser.dart';
 
 /// {@template xml_object_mapper}
 /// Extends the [ObjectMapper] interface to provide specialized support for
@@ -167,92 +169,28 @@ abstract interface class XmlObjectMapper implements ObjectMapper {
   /// - [XmlParser]
   /// - [readXmlContentTree]
   XmlNode readXmlTree(XmlParser parser);
-}
 
-/// {@template xml_parser}
-/// A **streaming XML reader** that sequentially exposes parsed XML tokens.
-///
-/// The [XmlParser] provides low-level, pull-based access to XML input,
-/// allowing deserializers to process data incrementally without loading
-/// entire documents into memory.
-///
-/// ### Overview
-/// - Reads from strings, byte streams, or character sources
-/// - Emits tokens ([XmlToken]) as it parses
-/// - Allows skipping nested elements efficiently
-///
-/// ### See also
-/// - [XmlToken]
-/// - [XmlObjectMapper]
-/// - [XmlNode]
-/// {@endtemplate}
-abstract interface class XmlParser {
-  /// Advances the parser to the **next XML token**.
+  /// Sets the active [XmlGenerator] used for serializing Dart objects to XML.
   ///
-  /// Returns `true` if another token exists, or `false` when end of input
-  /// is reached.
-  bool nextToken();
-
-  /// Returns the **current token type** (START_ELEMENT, END_ELEMENT, TEXT, etc.).
+  /// The provided [generatorr] will be used by the mapper for all subsequent
+  /// serialization operations. This allows users to inject a custom generator
+  /// implementation, e.g., one that writes to a `StringBuffer`, a file, or
+  /// a network stream.
+  ///
+  /// If not explicitly set, the mapper lazily creates a default [StringXmlGenerator]
+  /// via [getXmlGenerator].
   ///
   /// ### Example
   /// ```dart
-  /// if (parser.getCurrentToken() == XmlToken.START_ELEMENT) {
-  ///   print('Element: ${parser.getElementName()}');
-  /// }
+  /// final customGenerator = MyCustomXmlGenerator();
+  /// objectMapper.setXmlGenerator(customGenerator);
+  /// final json = objectMapper.writeValueAsString(myObject);
   /// ```
-  XmlToken? getCurrentToken();
-
-  /// Returns the **current element name** if at an element token.
   ///
-  /// Returns `null` for non-element tokens.
-  String? getElementName();
-
-  /// Returns the **text content** of the current token.
-  ///
-  /// For TEXT tokens, returns the content. For elements, may return `null`.
-  String? getText();
-
-  /// Returns the **attributes** of the current element as a map.
-  ///
-  /// Only valid when positioned at a START_ELEMENT token.
-  Map<String, String> getAttributes();
-
-  /// Skips the **current element** and all its children.
-  void skipElement();
-}
-
-/// Enumerates all **token types** that an [XmlParser] can encounter during
-/// XML parsing.
-///
-/// ### Example
-/// ```dart
-/// if (parser.getCurrentToken() == XmlToken.TEXT) {
-///   print('Text: ${parser.getText()}');
-/// }
-/// ```
-enum XmlToken {
-  /// Start of an XML element (`<tag>`).
-  START_ELEMENT,
-
-  /// End of an XML element (`</tag>`).
-  END_ELEMENT,
-
-  /// Text content between elements.
-  TEXT,
-
-  /// CDATA section (`<![CDATA[...]]>`).
-  CDATA,
-
-  /// Processing instruction (`<?...?>`).
-  PROCESSING_INSTRUCTION,
-
-  /// XML comment (`<!-- ... -->`).
-  COMMENT,
-
-  /// Entity reference.
-  ENTITY_REFERENCE,
-
-  /// End of document.
-  END_DOCUMENT,
+  /// ### Notes
+  /// - Replacing the generator at runtime affects all threads that share this
+  ///   mapper instance, so it should be done carefully in concurrent contexts.
+  /// - Any features like `SerializationFeature.INDENT_OUTPUT` will still
+  ///   apply to the new generator.
+  void setXmlGenerator(XmlGenerator generatorr);
 }

@@ -1,0 +1,34 @@
+/// Enumerates all **token types** that an [XmlParser] can encounter during
+/// XML parsing.
+///
+/// ### Example
+/// ```dart
+/// if (parser.getCurrentToken() == XmlToken.TEXT) {
+///   print('Text: ${parser.getText()}');
+/// }
+/// ```
+enum XmlToken {
+  /// Start of an XML element (`<tag>`).
+  START_ELEMENT,
+
+  /// End of an XML element (`</tag>`).
+  END_ELEMENT,
+
+  /// Text content between elements.
+  TEXT,
+
+  /// CDATA section (`<![CDATA[...]]>`).
+  CDATA,
+
+  /// Processing instruction (`<?...?>`).
+  PROCESSING_INSTRUCTION,
+
+  /// XML comment (`<!-- ... -->`).
+  COMMENT,
+
+  /// Entity reference.
+  ENTITY_REFERENCE,
+
+  /// End of document.
+  END_DOCUMENT,
+}

@@ -14,8 +14,10 @@
 
 import 'package:jetleaf_lang/lang.dart';
 
-import '../base.dart';
-import '../xml/xml_object_mapper.dart';
+import '../base/object_mapper.dart';
+import 'generator/yaml_generator.dart';
+import 'node/yaml_node.dart';
+import 'parser/yaml_parser.dart';
 
 /// {@template yaml_object_mapper}
 /// Extends the [ObjectMapper] interface to provide specialized support for
@@ -177,189 +179,28 @@ abstract interface class YamlObjectMapper implements ObjectMapper {
   /// - [YamlParser]
   /// - [readYamlContentTree]
   YamlNode readYamlTree(YamlParser parser);
-}
 
-/// {@template yaml_node}
-/// Represents a **node in a YAML document tree** (DOM-like structure).
-///
-/// A [YamlNode] provides both **hierarchical navigation** and **direct access**
-/// to YAML data, supporting mappings (objects), sequences (arrays), and scalars
-/// (values).
-///
-/// ### Node Types
-/// - **Mapping nodes** - Represent YAML key-value mappings (like maps)
-/// - **Sequence nodes** - Represent YAML arrays/lists
-/// - **Scalar nodes** - Represent simple values (strings, numbers, booleans)
-/// - **Alias nodes** - Represent references to anchored values
-///
-/// ### Navigation
-/// ```dart
-/// final root = tree.get('users');
-/// final firstUser = root.get('[0]');
-/// final name = firstUser.get('name').getText();
-/// ```
-///
-/// ### Example
-/// ```dart
-/// final yaml = '''
-/// users:
-///   - name: Alice
-///     age: 30
-///   - name: Bob
-///     age: 25
-/// ''';
-/// final tree = parser.readTree(yaml);
-/// final users = tree.get('users');
-/// final alice = users.get('[0]');
-///
-/// print(alice.get('name').getText()); // "Alice"
-/// print(alice.get('age').getText()); // "30"
-/// ```
-/// {@endtemplate}
-abstract class YamlNode {
-  /// Returns the **type** of this YAML node.
+  /// Sets the active [YamlGenerator] used for serializing Dart objects to YAML.
   ///
-  /// Can be 'mapping', 'sequence', or 'scalar'.
-  String? getNodeType();
-
-  /// Returns the **scalar value** of this node.
+  /// The provided [generator] will be used by the mapper for all subsequent
+  /// serialization operations. This allows users to inject a custom generator
+  /// implementation, e.g., one that writes to a `StringBuffer`, a file, or
+  /// a network stream.
   ///
-  /// For SCALAR nodes, returns the parsed value.
-  /// For MAPPING or SEQUENCE nodes, may return null.
-  String? getText();
-
-  /// Returns the **child node** with the given [key].
-  ///
-  /// For mappings, [key] is the map key.
-  /// For sequences, [key] should be an index like '[0]', '[1]', etc.
-  /// Returns `null` if no matching child exists.
+  /// If not explicitly set, the mapper lazily creates a default [StringYamlGenerator]
+  /// via [getYamlGenerator].
   ///
   /// ### Example
   /// ```dart
-  /// final name = mapping.get('name');
-  /// final first = sequence.get('[0]');
+  /// final customGenerator = MyCustomYamlGenerator();
+  /// objectMapper.setYamlGenerator(customGenerator);
+  /// final json = objectMapper.writeValueAsString(myObject);
   /// ```
-  YamlNode? get(String key);
-
-  /// Returns **all child nodes** with the given [key].
   ///
-  /// For sequences, returns all elements.
-  /// For mappings, may return values for all matching keys (rarely used).
-  /// Returns an empty list if no children match.
-  List<YamlNode> getAll(String key);
-
-  /// Returns the **list of all keys** in a mapping node.
-  ///
-  /// For non-mapping nodes, returns an empty list.
-  List<String> getKeys();
-
-  /// Returns the **list of all child nodes** in a sequence.
-  ///
-  /// For non-sequence nodes, returns an empty list.
-  List<YamlNode> getElements();
-
-  /// Converts this node to a **Dart object** of type [T].
-  ///
-  /// This is a convenience method for converting YAML data back
-  /// to strongly-typed Dart objects.
-  ///
-  /// ### Example
-  /// ```dart
-  /// final user = tree.toObject<User>();
-  /// ```
-  Object? toObject<T>();
-}
-
-/// {@template yaml_parser}
-/// A **streaming YAML reader** that sequentially exposes parsed YAML tokens.
-///
-/// The [YamlParser] provides low-level, pull-based access to YAML input,
-/// allowing deserializers to process data incrementally without loading
-/// entire documents into memory.
-///
-/// ### Overview
-/// - Reads from strings, byte streams, or character sources
-/// - Emits tokens ([YamlToken]) as it parses
-/// - Allows skipping nested structures efficiently
-/// - Supports anchors and aliases for reference resolution
-///
-/// ### See also
-/// - [YamlToken]
-/// - [YamlObjectMapper]
-/// - [YamlNode]
-/// {@endtemplate}
-abstract interface class YamlParser {
-  /// Advances the parser to the **next YAML token**.
-  ///
-  /// Returns `true` if another token exists, or `false` when end of input
-  /// is reached.
-  bool nextToken();
-
-  /// Returns the **current token type** (mapping, sequence, scalar, etc.).
-  ///
-  /// ### Example
-  /// ```dart
-  /// if (parser.getCurrentToken() == YamlToken.KEY) {
-  ///   print('Key: ${parser.getScalarValue()}');
-  /// }
-  /// ```
-  YamlToken? getCurrentToken();
-
-  /// Returns the **scalar value** of the current token.
-  ///
-  /// For SCALAR tokens, returns the string value.
-  /// For other tokens, may return null.
-  String? getScalarValue();
-
-  /// Returns the **anchor name** if this token is anchored.
-  ///
-  /// For tokens with anchors (e.g., `&anchor value`), returns the anchor name.
-  /// Returns `null` if no anchor is present.
-  String? getAnchor();
-
-  /// Returns the **alias reference** if this token is an alias.
-  ///
-  /// For ALIAS tokens, returns the referenced anchor name.
-  String? getAlias();
-
-  /// Skips the **current structure** (mapping or sequence).
-  void skipStructure();
-}
-
-/// Enumerates all **token types** that a [YamlParser] can encounter during
-/// YAML parsing.
-///
-/// ### Example
-/// ```dart
-/// if (parser.getCurrentToken() == YamlToken.SCALAR) {
-///   print('Value: ${parser.getScalarValue()}');
-/// }
-/// ```
-enum YamlToken {
-  /// Start of a YAML mapping (dictionary/object).
-  MAPPING_START,
-
-  /// End of a YAML mapping.
-  MAPPING_END,
-
-  /// Key in a mapping.
-  KEY,
-
-  /// Value in a mapping or element.
-  VALUE,
-
-  /// Start of a YAML sequence (array/list).
-  SEQUENCE_START,
-
-  /// End of a YAML sequence.
-  SEQUENCE_END,
-
-  /// A scalar (simple) value.
-  SCALAR,
-
-  /// An alias (reference to an anchored value).
-  ALIAS,
-
-  /// End of document.
-  END_DOCUMENT,
+  /// ### Notes
+  /// - Replacing the generator at runtime affects all threads that share this
+  ///   mapper instance, so it should be done carefully in concurrent contexts.
+  /// - Any features like `SerializationFeature.INDENT_OUTPUT` will still
+  ///   apply to the new generator.
+  void setYamlGenerator(YamlGenerator generator);
 }

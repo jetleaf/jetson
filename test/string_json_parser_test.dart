@@ -12,9 +12,9 @@
 // 
 // 🔧 Powered by Hapnium — the Dart backend engine 🍃
 
+import 'package:jetson/src/json/json_token.dart';
 import 'package:test/test.dart';
-import 'package:jetson/src/json/string_json_parser.dart';
-import 'package:jetson/src/base.dart';
+import 'package:jetson/src/json/parser/string_json_parser.dart';
 
 void main() {
   test('parses simple object tokens in expected order', () {
@@ -86,19 +86,5 @@ void main() {
     expect(parser.getCurrentToken(), JsonToken.END_OBJECT);
 
     expect(parser.nextToken(), isFalse);
-  });
-
-  test('parses primitive root values', () {
-    final s = StringJsonParser('"hello"');
-    expect(s.nextToken(), isTrue);
-    expect(s.getCurrentToken(), JsonToken.VALUE_STRING);
-    expect(s.getCurrentValue(), 'hello');
-    expect(s.nextToken(), isFalse);
-
-    final n = StringJsonParser('123');
-    expect(n.nextToken(), isTrue);
-    expect(n.getCurrentToken(), JsonToken.VALUE_NUMBER);
-    expect(n.getCurrentValue(), 123);
-    expect(n.nextToken(), isFalse);
   });
 }

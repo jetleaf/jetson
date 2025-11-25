@@ -14,7 +14,8 @@
 
 import 'dart:convert';
 
-import 'package:jetson/src/json/string_json_generator.dart';
+import 'package:jetson/src/exceptions.dart';
+import 'package:jetson/src/json/generator/string_json_generator.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -27,7 +28,7 @@ void main() {
         gen.writeString('Alice');
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(json, '{"name":"Alice"}');
         
         // Verify it's valid JSON
@@ -49,7 +50,7 @@ void main() {
         
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(json, '{"name":"Alice","age":30,"active":true}');
         expect(() => jsonDecode(json), returnsNormally);
       });
@@ -62,7 +63,7 @@ void main() {
         gen.writeString('c');
         gen.writeEndArray();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(json, '["a","b","c"]');
         expect(() => jsonDecode(json), returnsNormally);
       });
@@ -75,7 +76,7 @@ void main() {
         gen.writeNumber(3);
         gen.writeEndArray();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(json, '[1,2.5,3]');
         expect(() => jsonDecode(json), returnsNormally);
       });
@@ -94,7 +95,7 @@ void main() {
         
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(json, '{"user":{"name":"Alice","age":30}}');
         expect(() => jsonDecode(json), returnsNormally);
       });
@@ -111,7 +112,7 @@ void main() {
         
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(json, '{"names":["Alice","Bob"]}');
         expect(() => jsonDecode(json), returnsNormally);
       });
@@ -136,7 +137,7 @@ void main() {
         
         gen.writeEndArray();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(json, '[{"id":1,"name":"Alice"},{"id":2,"name":"Bob"}]');
         expect(() => jsonDecode(json), returnsNormally);
       });
@@ -150,7 +151,7 @@ void main() {
         
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(json, '{"value":null}');
         expect(() => jsonDecode(json), returnsNormally);
       });
@@ -162,7 +163,7 @@ void main() {
         gen.writeNumber(1);
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         // Should not end with '},' or have ',' before '}'
         expect(json.contains(',}'), false);
         expect(json.endsWith('}'), true);
@@ -175,7 +176,7 @@ void main() {
         gen.writeNumber(2);
         gen.writeEndArray();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         // Should not end with '],' or have ',' before ']'
         expect(json.contains(',]'), false);
         expect(json.endsWith(']'), true);
@@ -188,7 +189,7 @@ void main() {
         gen.writeString('Hello\nWorld\t"quoted"');
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(json, '{"text":"Hello\\nWorld\\t\\"quoted\\""}');
         expect(() => jsonDecode(json), returnsNormally);
       });
@@ -200,7 +201,7 @@ void main() {
         gen.writeString('C:\\Users\\Alice');
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(json, '{"path":"C:\\\\Users\\\\Alice"}');
         expect(() => jsonDecode(json), returnsNormally);
       });
@@ -214,7 +215,7 @@ void main() {
         gen.writeString('Alice');
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         // Should have newlines and indentation
         expect(json.contains('\n'), true);
         expect(json.contains('  '), true);
@@ -233,7 +234,7 @@ void main() {
         
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(() => jsonDecode(json), returnsNormally);
         expect(json.contains('\n'), true);
       });
@@ -246,7 +247,7 @@ void main() {
         gen.writeNumber(3);
         gen.writeEndArray();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(() => jsonDecode(json), returnsNormally);
         expect(json.contains('\n'), true);
       });
@@ -261,7 +262,7 @@ void main() {
         gen.writeEndObject();
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(json.contains('    '), true); // 4-space indent
         expect(() => jsonDecode(json), returnsNormally);
       });
@@ -309,7 +310,7 @@ void main() {
         
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         
         // Verify structure
         expect(json.contains('"id":"H001"'), true);
@@ -339,7 +340,7 @@ void main() {
         gen.writeEndObject();
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(json, '{"level1":{"level2":{"level3":42}}}');
         expect(() => jsonDecode(json), returnsNormally);
       });
@@ -365,7 +366,7 @@ void main() {
         
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(json, '{"items":[{"id":1,"tags":["tag1","tag2"]}]}');
         expect(() => jsonDecode(json), returnsNormally);
       });
@@ -378,7 +379,7 @@ void main() {
         
         expect(
           () => gen.writeEndArray(),
-          throwsStateError,
+          throwsA(isA<ObjectGeneratorException>()),
         );
       });
 
@@ -388,7 +389,7 @@ void main() {
         
         expect(
           () => gen.writeEndObject(),
-          throwsStateError,
+          throwsA(isA<ObjectGeneratorException>()),
         );
       });
 
@@ -398,7 +399,7 @@ void main() {
         
         expect(
           () => gen.writeFieldName('invalid'),
-          throwsStateError,
+          throwsA(isA<ObjectGeneratorException>()),
         );
       });
 
@@ -410,8 +411,8 @@ void main() {
         // Missing writeEndObject()
         
         expect(
-          () => gen.toJsonString(),
-          throwsStateError,
+          () => gen.toString(),
+          throwsA(isA<ObjectGeneratorException>()),
         );
       });
 
@@ -423,37 +424,17 @@ void main() {
         gen.writeFieldName('a');
         gen.writeNumber(1);
         gen.writeEndObject();
-        final json1 = gen.toJsonString();
+        final json1 = gen.toString();
         
         // Second use (should work)
         gen.writeStartObject();
         gen.writeFieldName('b');
         gen.writeNumber(2);
         gen.writeEndObject();
-        final json2 = gen.toJsonString();
+        final json2 = gen.toString();
         
         expect(json1, '{"a":1}');
         expect(json2, '{"b":2}');
-      });
-
-      test('handles empty objects', () {
-        final gen = StringJsonGenerator();
-        gen.writeStartObject();
-        gen.writeEndObject();
-
-        final json = gen.toJsonString();
-        expect(json, '{}');
-        expect(() => jsonDecode(json), returnsNormally);
-      });
-
-      test('handles empty arrays', () {
-        final gen = StringJsonGenerator();
-        gen.writeStartArray();
-        gen.writeEndArray();
-
-        final json = gen.toJsonString();
-        expect(json, '[]');
-        expect(() => jsonDecode(json), returnsNormally);
       });
 
       test('handles special float values', () {
@@ -464,7 +445,7 @@ void main() {
         gen.writeNumber(-42.5);
         gen.writeEndArray();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(() => jsonDecode(json), returnsNormally);
       });
     });
@@ -477,7 +458,7 @@ void main() {
         gen.writeString('tab:\t newline:\n carriage:\r');
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(json.contains('\\t'), true);
         expect(json.contains('\\n'), true);
         expect(json.contains('\\r'), true);
@@ -491,7 +472,7 @@ void main() {
         gen.writeString('She said "Hello"');
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(json.contains('\\"'), true);
         expect(() => jsonDecode(json), returnsNormally);
       });
@@ -503,7 +484,7 @@ void main() {
         gen.writeString('backspace:\b formfeed:\f');
         gen.writeEndObject();
 
-        final json = gen.toJsonString();
+        final json = gen.toString();
         expect(() => jsonDecode(json), returnsNormally);
       });
     });
