@@ -1,3 +1,4 @@
+import 'package:jetleaf_core/core.dart';
 import 'package:jetleaf_lang/lang.dart';
 
 import '../../annotations.dart';
@@ -174,6 +175,11 @@ final class DartJsonSerializationAdapter extends JsonSerializationAdapter<Object
     final type = value.getClass();
     final namingStrategy = serializer.getNamingStrategy();
     final allowNullValues = serializer.getObjectMapper().isFeatureEnabled(SerializationFeature.WRITE_NULL_MAP_VALUES.name);
+
+    if (value is ToJsonFactory) {
+      serializer.serialize(value.toJson(), generator);
+      return;
+    }
 
     // 1. Prefer custom `toJson()` method if defined
     final toJsonMethodIfAvailable = type.getMethod("toJson");
