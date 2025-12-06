@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.8]
+## [1.0.7]
 
 - Updated dependencies - `jetleaf_lang`, `jetleaf_env`, `jetleaf_convert`, `jetleaf_logging`, `jetleaf_utils`, `jetleaf_core` and `jetleaf_pod`
 
