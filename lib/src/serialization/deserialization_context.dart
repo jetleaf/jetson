@@ -72,6 +72,7 @@ import 'object_deserializer.dart';
 /// - [ObjectMapper.readValue] — high-level entry point  
 /// - [ConversionService] — scalar/type adaptation  
 /// {@endtemplate}
+@Generic(DeserializationContext)
 abstract interface class DeserializationContext<P extends Parser> implements BaseSerializer {
   /// Represents the [DeserializationContext] type for reflection and runtime
   /// discovery within the Jetson framework.
