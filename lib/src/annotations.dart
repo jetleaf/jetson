@@ -328,7 +328,7 @@ class FromJson<T> extends ReflectableAnnotation {
 @Target({TargetKind.classType})
 class ToJson<T> extends ReflectableAnnotation {
   /// A function that converts an instance of the annotated class to a JSON map.
-  final Map<String, Object> Function(Object) creator;
+  final Map<String, Object> Function(T) creator;
 
   /// Constructs a [ToJson] annotation with the given `creator` function.
   const ToJson(this.creator);
