@@ -33,10 +33,10 @@ import 'json_adapter.dart';
 ///
 /// ### Example
 /// ```dart
-/// final adapter = DartJsonSerializationAdapter(Class.of(User));
+/// final adapter = DartJsonSerializationAdapter(Class.forType(User));
 /// final userJson = '{ "name": "Alice", "age": 30 }';
 /// final parser = JsonParser(userJson);
-/// final user = adapter.deserialize(parser, context, Class.of(User));
+/// final user = adapter.deserialize(parser, context, Class.forType(User));
 ///
 /// final generator = JsonGenerator();
 /// adapter.serialize(user, generator, serializerContext);

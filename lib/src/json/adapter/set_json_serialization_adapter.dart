@@ -30,7 +30,7 @@ import 'json_adapter.dart';
 /// final adapter = SetJsonSerializationAdapter();
 ///
 /// final parser = JsonParser('[1, 2, 3]');
-/// final result = adapter.deserialize(parser, context, Class.of(Set));
+/// final result = adapter.deserialize(parser, context, Class.forType(Set));
 ///
 /// final generator = JsonGenerator();
 /// adapter.serialize(result, generator, serializerContext);

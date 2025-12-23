@@ -148,7 +148,7 @@ final class DateTimeSerializationAdapter<
 /// adapter.serialize(duration, generator, context);
 /// // JSON output: 5000000 (microseconds)
 ///
-/// final parsed = adapter.deserialize(parser, context, Class.of(Duration));
+/// final parsed = adapter.deserialize(parser, context, Class.forType(Duration));
 /// // parsed is a Duration instance
 /// ```
 ///
@@ -246,7 +246,7 @@ final class DurationSerializationAdapter<
 /// adapter.serialize(date, generator, context);
 /// // JSON output: "2025-10-28"
 ///
-/// final parsed = adapter.deserialize(parser, context, Class.of(LocalDate));
+/// final parsed = adapter.deserialize(parser, context, Class.forType(LocalDate));
 /// // parsed is a LocalDate instance
 /// ```
 ///
@@ -331,7 +331,7 @@ final class LocalDateSerializationAdapter<
 /// adapter.serialize(dateTime, generator, context);
 /// // JSON output: "2025-06-27T08:15:30.123"
 ///
-/// final parsed = adapter.deserialize(parser, context, Class.of(LocalDateTime));
+/// final parsed = adapter.deserialize(parser, context, Class.forType(LocalDateTime));
 /// // parsed is a LocalDateTime instance
 /// ```
 ///
@@ -419,7 +419,7 @@ final class LocalDateTimeSerializationAdapter<
 /// adapter.serialize(uri, generator, context);
 /// // JSON output: "https://example.com/path"
 ///
-/// final parsed = adapter.deserialize(parser, context, Class.of(Uri));
+/// final parsed = adapter.deserialize(parser, context, Class.forType(Uri));
 /// // parsed is a Uri instance
 /// ```
 ///
@@ -503,7 +503,7 @@ final class UriSerializationAdapter<
 /// adapter.serialize(url, generator, context);
 /// // JSON output: "https://example.com/path"
 ///
-/// final parsed = adapter.deserialize(parser, context, Class.of(Url));
+/// final parsed = adapter.deserialize(parser, context, Class.forType(Url));
 /// // parsed is a Url instance
 /// ```
 ///
@@ -587,7 +587,7 @@ final class UrlSerializationAdapter<
 /// adapter.serialize(zonedDateTime, generator, context);
 /// // JSON output: "2023-12-25T15:30:45-05:00[America/New_York]"
 ///
-/// final parsed = adapter.deserialize(parser, context, Class.of(ZonedDateTime));
+/// final parsed = adapter.deserialize(parser, context, Class.forType(ZonedDateTime));
 /// // parsed is a ZonedDateTime instance
 /// ```
 ///

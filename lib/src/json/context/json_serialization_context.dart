@@ -48,7 +48,7 @@ import '../generator/json_generator.dart';
 /// ### Example
 /// ```dart
 /// final provider = JsonSerializationContext(objectMapper, {});
-/// final serializer = provider.findSerializerForType(Class.of(MyModel));
+/// final serializer = provider.findSerializerForType(Class.forType(MyModel));
 /// serializer?.serialize(myModel, generator, provider);
 /// ```
 ///
@@ -100,7 +100,7 @@ class JsonSerializationContext implements SerializationContext<JsonGenerator> {
       final key = entry.key;
       final s = entry.value;
 
-      if (s.getClass().getPackage()?.getName() == PackageNames.JETSON) {
+      if (s.getClass().getPackage().getName() == PackageNames.JETSON) {
         _frameworkSerializers.add(key, s);
       } else {
         _configuredSerializers.add(key, s);
@@ -136,7 +136,7 @@ class JsonSerializationContext implements SerializationContext<JsonGenerator> {
   ///
   /// ### Example
   /// ```dart
-  /// final serializer = provider.find(Class.of(MyModel), configuredSerializers);
+  /// final serializer = provider.find(Class.forType(MyModel), configuredSerializers);
   /// if (serializer != null) {
   ///   print("Found serializer for ${serializer.toClass().getName()}");
   /// }

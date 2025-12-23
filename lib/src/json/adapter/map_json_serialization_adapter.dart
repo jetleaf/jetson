@@ -27,7 +27,7 @@ import 'json_adapter.dart';
 /// final adapter = MapJsonSerializationAdapter();
 ///
 /// final parser = JsonParser('{ "name": "Alice", "age": 30 }');
-/// final map = adapter.deserialize(parser, context, Class.of(Map));
+/// final map = adapter.deserialize(parser, context, Class.forType(Map));
 ///
 /// final generator = JsonGenerator();
 /// adapter.serialize(map, generator, serializerContext);

@@ -24,7 +24,7 @@ class XmlDeserializationContext implements DeserializationContext<XmlParser> {
       final key = entry.key;
       final des = entry.value;
 
-      if (des.getClass().getPackage()?.getName() == PackageNames.JETSON) {
+      if (des.getClass().getPackage().getName() == PackageNames.JETSON) {
         _frameworkDeserializers.add(key, des);
       } else {
         _configuredDeserializers.add(key, des);

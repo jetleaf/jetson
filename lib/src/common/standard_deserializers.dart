@@ -36,7 +36,7 @@ import '../serialization/object_deserializer.dart';
 /// final deserializer = StringDeserializer();
 ///
 /// final parser = JsonParser('"hello"');
-/// final result = deserializer.deserialize(parser, context, Class.of(String));
+/// final result = deserializer.deserialize(parser, context, Class.forType(String));
 /// // result == "hello"
 /// ```
 ///
@@ -104,7 +104,7 @@ final class StringDeserializer<P extends Parser, C extends DeserializationContex
 /// final deserializer = IntDeserializer();
 ///
 /// final parser = JsonParser('42');
-/// final result = deserializer.deserialize(parser, context, Class.of(int));
+/// final result = deserializer.deserialize(parser, context, Class.forType(int));
 /// // result == 42
 /// ```
 ///
@@ -170,7 +170,7 @@ final class IntDeserializer<P extends Parser, C extends DeserializationContext> 
 /// final deserializer = DoubleDeserializer();
 ///
 /// final parser = JsonParser('3.14');
-/// final result = deserializer.deserialize(parser, context, Class.of(double));
+/// final result = deserializer.deserialize(parser, context, Class.forType(double));
 /// // result == 3.14
 /// ```
 ///
@@ -239,7 +239,7 @@ final class DoubleDeserializer<P extends Parser, C extends DeserializationContex
 /// final deserializer = NumDeserializer();
 ///
 /// final parser = JsonParser('42.5');
-/// final result = deserializer.deserialize(parser, context, Class.of(num));
+/// final result = deserializer.deserialize(parser, context, Class.forType(num));
 /// // result == 42.5
 /// ```
 ///
@@ -306,7 +306,7 @@ final class NumDeserializer<P extends Parser, C extends DeserializationContext> 
 /// final deserializer = BoolDeserializer();
 ///
 /// parser.setValue("TRUE");
-/// final result = deserializer.deserialize(parser, context, Class.of(bool));
+/// final result = deserializer.deserialize(parser, context, Class.forType(bool));
 /// // result == true
 /// ```
 ///

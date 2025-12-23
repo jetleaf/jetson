@@ -26,7 +26,7 @@ import 'json_adapter.dart';
 /// final adapter = ListJsonSerializationAdapter();
 ///
 /// final parser = JsonParser('[1, 2, 3]');
-/// final list = adapter.deserialize(parser, context, Class.of(List));
+/// final list = adapter.deserialize(parser, context, Class.forType(List));
 ///
 /// final generator = JsonGenerator();
 /// adapter.serialize(list, generator, serializerContext);

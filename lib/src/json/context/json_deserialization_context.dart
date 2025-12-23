@@ -46,7 +46,7 @@ import '../../serialization/deserialization_context.dart';
 /// ### Example
 /// ```dart
 /// final context = JsonDeserializationContext(objectMapper, {});
-/// final user = context.deserialize(parser, Class.of(User));
+/// final user = context.deserialize(parser, Class.forType(User));
 /// ```
 ///
 /// ### See also
@@ -102,7 +102,7 @@ class JsonDeserializationContext implements DeserializationContext<JsonParser> {
       final key = entry.key;
       final des = entry.value;
 
-      if (des.getClass().getPackage()?.getName() == PackageNames.JETSON) {
+      if (des.getClass().getPackage().getName() == PackageNames.JETSON) {
         _frameworkDeserializers.add(key, des);
       } else {
         _configuredDeserializers.add(key, des);
@@ -149,9 +149,9 @@ class JsonDeserializationContext implements DeserializationContext<JsonParser> {
   ///
   /// ### Example
   /// ```dart
-  /// final deserializer = context.find(Class.of(User), configuredDeserializers);
+  /// final deserializer = context.find(Class.forType(User), configuredDeserializers);
   /// if (deserializer != null) {
-  ///   final user = deserializer.deserialize(parser, context, Class.of(User));
+  ///   final user = deserializer.deserialize(parser, context, Class.forType(User));
   /// }
   /// ```
   ObjectDeserializer? find(Class type, Map<Class, ObjectDeserializer> deserializers) {
