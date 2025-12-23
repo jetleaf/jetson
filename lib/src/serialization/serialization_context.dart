@@ -90,7 +90,7 @@ abstract interface class SerializationContext<G extends Generator> implements Ba
   ///
   /// ### Example
   /// ```dart
-  /// final serializer = provider.findSerializerForType(Class.of(User));
+  /// final serializer = provider.findSerializerForType(Class.forType(User));
   /// serializer?.serialize(user, generator, provider);
   /// ```
   ///

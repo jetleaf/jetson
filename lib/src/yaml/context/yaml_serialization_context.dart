@@ -24,7 +24,7 @@ class YamlSerializationContext implements SerializationContext<YamlGenerator> {
       final key = entry.key;
       final s = entry.value;
 
-      if (s.getClass().getPackage()?.getName() == PackageNames.JETSON) {
+      if (s.getClass().getPackage().getName() == PackageNames.JETSON) {
         _frameworkSerializers.add(key, s);
       } else {
         _configuredSerializers.add(key, s);
