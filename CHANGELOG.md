@@ -6,6 +6,17 @@ This project follows a simple, human-readable changelog format inspired by
 
 ---
 
+## [1.1.5]
+
+### Changed
+- Restructured the `jetson` library into focused sub-libraries (e.g. `json`, `mapper`, etc.), while keeping the main `jetson` entry point exporting all modules.
+- Exceptions thrown during `newInstance` invocation are no longer silently ignored.
+
+### Added
+- `FailedDeserializationException` for clearer error reporting during deserialization.
+
+---
+
 ## [1.1.4]
 
 ### Changed

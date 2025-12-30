@@ -181,31 +181,158 @@ class NoSerializerFoundException extends RuntimeException {
   NoSerializerFoundException(super.message);
 }
 
-/// Exception thrown when a YAML parsing error occurs.
+/// {@template yaml_exception}
+/// Thrown when an error occurs while parsing or processing a YAML document.
+///
+/// This exception represents **syntax or structural errors** encountered
+/// during YAML parsing. It includes precise location information to help
+/// identify where in the source document the error occurred.
+///
+/// This typically occurs when:
+/// - The YAML document is malformed or contains invalid syntax
+/// - Indentation rules are violated
+/// - Unexpected tokens or values are encountered
+///
+/// ### Example
+/// ```dart
+/// throw YamlException(
+///   'Unexpected token while parsing YAML',
+///   position,
+/// );
+/// ```
+///
+/// ### See also
+/// - [UnsupportedYamlFeatureException]
+/// - [YamlPosition]
+/// {@endtemplate}
 class YamlException extends RuntimeException {
-  /// The position in the source where the error occurred.
+  /// The position in the YAML source where the error occurred.
+  ///
+  /// This provides line, column, and offset information to help
+  /// pinpoint the exact location of the parsing error.
   final YamlPosition position;
-  
-  /// Creates a new [YamlException] with the given [message] and [position].
+
+  /// {@macro yaml_exception}
+  ///
+  /// Creates a new [YamlException] with the given error [message]
+  /// and source [position].
+  ///
+  /// An optional [stackTrace] may be provided for debugging purposes.
   YamlException(super.message, this.position, {super.stackTrace});
   
   @override
   String toString() => 'YAML Exception at $position: $message';
 }
 
-/// Exception thrown when a YAML document contains an unsupported feature.
+/// {@template unsupported_yaml_feature_exception}
+/// Thrown when a YAML document uses a feature that is not supported.
+///
+/// This exception is used when the YAML parser encounters valid YAML
+/// syntax that relies on features not implemented or intentionally
+/// disabled by the current parser configuration.
+///
+/// This typically occurs when:
+/// - Advanced YAML features (anchors, aliases, tags, etc.) are used
+/// - Custom YAML extensions are encountered
+/// - The parser is running in a restricted or safe mode
+///
+/// ### Example
+/// ```dart
+/// throw UnsupportedYamlFeatureException(
+///   'anchors',
+///   position,
+/// );
+/// ```
+///
+/// ### See also
+/// - [YamlException]
+/// - [YamlPosition]
+/// {@endtemplate}
 class UnsupportedYamlFeatureException extends YamlException {
-  /// The unsupported feature name.
+  /// The name of the unsupported YAML feature.
+  ///
+  /// This value describes which specific feature caused the exception,
+  /// making it easier to diagnose compatibility issues.
   final String feature;
-  
-  /// Creates a new [UnsupportedYamlFeatureException] for the given [feature].
+
+  /// {@macro unsupported_yaml_feature_exception}
+  ///
+  /// Creates a new [UnsupportedYamlFeatureException] for the given
+  /// unsupported [feature] at the specified YAML [position].
+  ///
+  /// An optional [stackTrace] may be provided for debugging purposes.
   UnsupportedYamlFeatureException(this.feature, YamlPosition position, [StackTrace? stackTrace])
       : super('Unsupported YAML feature: $feature', position, stackTrace: stackTrace);
 }
 
-/// Exception thrown when a YAML document contains invalid syntax.
+/// {@template yaml_syntax_exception}
+/// Thrown when a YAML document contains **invalid or malformed syntax**.
+///
+/// This exception represents errors that occur when the YAML parser
+/// encounters syntax that violates the YAML specification.
+///
+/// This typically occurs when:
+/// - Indentation is incorrect or inconsistent
+/// - Required delimiters (`:`, `-`, etc.) are missing
+/// - Invalid scalar or mapping syntax is used
+/// - Unexpected tokens are encountered during parsing
+///
+/// ### Example
+/// ```dart
+/// throw YamlSyntaxException(
+///   'Expected ":" after key',
+///   position,
+/// );
+/// ```
+///
+/// ### See also
+/// - [YamlException]
+/// - [YamlPosition]
+/// - [UnsupportedYamlFeatureException]
+/// {@endtemplate}
 class YamlSyntaxException extends YamlException {
-  /// Creates a new [YamlSyntaxException] with the given [message].
+  /// {@macro yaml_syntax_exception}
+  ///
+  /// Creates a new [YamlSyntaxException] with a descriptive [message]
+  /// and the exact source [position] where the syntax error occurred.
+  ///
+  /// An optional [stackTrace] may be provided for debugging purposes.
   YamlSyntaxException(String message, YamlPosition position, [StackTrace? stackTrace])
       : super('Syntax error: $message', position, stackTrace: stackTrace);
+}
+
+/// {@template failed_deserialization_exception}
+/// Thrown when an object cannot be deserialized into the target Dart type.
+///
+/// This exception indicates a failure during the **deserialization process**,
+/// where input data (JSON, YAML, XML, etc.) cannot be converted into
+/// the expected object structure.
+///
+/// This typically occurs when:
+/// - Required fields are missing or have incompatible types
+/// - The input structure does not match the target model
+/// - A custom deserializer throws an error
+/// - Invalid or unexpected values are encountered
+///
+/// ### Example
+/// ```dart
+/// throw FailedDeserializationException(
+///   'Unable to deserialize User from YAML document',
+/// );
+/// ```
+///
+/// ### See also
+/// - [RuntimeException]
+/// - [YamlException]
+/// - [NoSerializerFoundException]
+/// {@endtemplate}
+class FailedDeserializationException extends RuntimeException {
+  /// {@macro failed_deserialization_exception}
+  ///
+  /// Creates a new [FailedDeserializationException] with the given
+  /// error [message].
+  ///
+  /// An optional [cause] and [stackTrace] may be provided to preserve
+  /// the original failure context.
+  FailedDeserializationException(super.message, {super.cause, super.stackTrace});
 }

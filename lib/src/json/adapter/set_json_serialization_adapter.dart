@@ -108,10 +108,8 @@ final class SetJsonSerializationAdapter extends JsonSerializationAdapter<Set> {
         continue;
       }
 
-      final componentType = toClass.componentType();
-      if (componentType != null) {
-        final deserializer = ctxt.findDeserializerForType(componentType);
-        if (deserializer != null) {
+      if (toClass.componentType() case final componentType?) {
+        if (ctxt.findDeserializerForType(componentType) case final deserializer?) {
           final result = deserializer.deserialize(parser, ctxt, componentType);
           set.add(result);
           continue;
@@ -119,8 +117,7 @@ final class SetJsonSerializationAdapter extends JsonSerializationAdapter<Set> {
       }
 
       final valueClass = value.getClass();
-      final deserializer = ctxt.findDeserializerForType(valueClass);
-      if (deserializer != null) {
+      if (ctxt.findDeserializerForType(valueClass) case final deserializer?) {
         final result = deserializer.deserialize(parser, ctxt, valueClass);
         set.add(result);
         continue;

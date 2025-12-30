@@ -146,13 +146,11 @@ class JsonSerializationContext implements SerializationContext<JsonGenerator> {
       return serializers[type];
     }
 
-    ObjectSerializer? serializer = serializers.values.find((serializer) => serializer.canSerialize(type));
-    if (serializer != null) {
+    if (serializers.values.find((serializer) => serializer.canSerialize(type)) case final serializer?) {
       return serializer;
     }
 
-    serializer = serializers.values.find((ss) => ss.toClass() == type || ss.toClass().getType() == type.getType());
-    if (serializer != null) {
+    if (serializers.values.find((ss) => ss.toClass() == type || ss.toClass().getType() == type.getType()) case final serializer?) {
       return serializer;
     }
 
@@ -180,9 +178,8 @@ class JsonSerializationContext implements SerializationContext<JsonGenerator> {
 
     // Find appropriate serializer
     final type = object.getClass();
-    final serializer = findSerializerForType(type);
 
-    if (serializer != null) {
+    if (findSerializerForType(type) case final serializer?) {
       serializer.serialize(object, generator, this);
     } else {
       // Fallback: write as string

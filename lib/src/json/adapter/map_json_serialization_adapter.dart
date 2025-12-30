@@ -124,10 +124,8 @@ final class MapJsonSerializationAdapter extends JsonSerializationAdapter<Map> {
 
 
         // Try to use the declared map value component type first
-        final valueType = toClass.componentType();
-        if (valueType != null) {
-          final valueDeserializer = ctxt.findDeserializerForType(valueType);
-          if (valueDeserializer != null) {
+        if (toClass.componentType() case final valueType?) {
+          if (ctxt.findDeserializerForType(valueType) case final valueDeserializer?) {
             final deserialized = valueDeserializer.deserialize(parser, ctxt, valueType);
             map[dartKey] = deserialized;
 
@@ -137,8 +135,7 @@ final class MapJsonSerializationAdapter extends JsonSerializationAdapter<Map> {
 
         // Fallback to runtime value's deserializer
         final valueClass = value.getClass();
-        final deserializer = ctxt.findDeserializerForType(valueClass);
-        if (deserializer != null) {
+        if (ctxt.findDeserializerForType(valueClass) case final deserializer?) {
           final result = deserializer.deserialize(parser, ctxt, valueClass);
           map[dartKey] = result;
           

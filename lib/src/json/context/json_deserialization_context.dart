@@ -17,6 +17,7 @@ import 'package:jetleaf_env/env.dart';
 import 'package:jetleaf_lang/lang.dart';
 
 import '../../base/object_mapper.dart';
+import '../../exceptions.dart';
 import '../../serialization/object_deserializer.dart';
 import '../adapter/dart_json_serialization_adapter.dart';
 import '../parser/json_parser.dart';
@@ -191,15 +192,15 @@ class JsonDeserializationContext implements DeserializationContext<JsonParser> {
     } on ConverterNotFoundException catch (_) {
       return result as T;
     } catch (e, st) {
-      final prettyMessage = _buildDeserializationErrorMessage(e, st, type);
-      throw TypeResolutionException(prettyMessage);
+      final prettyMessage = _buildDeserializationErrorMessage(type);
+      throw FailedDeserializationException(prettyMessage, cause: e, stackTrace: st);
     }
   }
 
-  String _buildDeserializationErrorMessage(Object error, StackTrace stack, Class type) {
+  String _buildDeserializationErrorMessage(Class type) {
     final buffer = StringBuffer();
 
-    buffer.writeln('🚨  Jetson Type Resolution Error');
+    buffer.writeln('🚨  Jetson Failed Deserialization Error');
     buffer.writeln('──────────────────────────────────────────────');
     buffer.writeln('❌  Unable to construct object of type: `$type`');
     buffer.writeln('');
@@ -226,8 +227,6 @@ class JsonDeserializationContext implements DeserializationContext<JsonParser> {
     buffer.writeln('    `@JsonField(name: "custom_name")` or `@JsonIgnore()`');
     buffer.writeln('');
     buffer.writeln('⚙️  **Technical details:**');
-    buffer.writeln('Error: $error');
-    buffer.writeln('Stack Trace:\n$stack');
     buffer.writeln('──────────────────────────────────────────────');
 
     return buffer.toString();
