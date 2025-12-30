@@ -122,100 +122,13 @@ export 'src/common/time_serialization_adapters.dart';
 export 'src/common/standard_deserializers.dart';
 export 'src/common/standard_serializers.dart';
 
-export 'src/jetson/abstract_json_object_mapper.dart';
-export 'src/jetson/abstract_xml_object_mapper.dart';
-export 'src/jetson/abstract_yaml_object_mapper.dart';
-export 'src/jetson/jetson_object_mapper.dart';
-export 'src/jetson/abstract_aware_object_mapper.dart';
-
-export 'src/json/adapter/json_adapter.dart';
-export 'src/json/adapter/dart_json_serialization_adapter.dart';
-export 'src/json/adapter/list_json_serialization_adapter.dart';
-export 'src/json/adapter/map_json_serialization_adapter.dart';
-export 'src/json/adapter/set_json_serialization_adapter.dart';
-
-export 'src/json/context/json_deserialization_context.dart';
-export 'src/json/context/json_serialization_context.dart';
-
-export 'src/json/generator/string_json_generator.dart';
-export 'src/json/generator/json_generator.dart';
-
-export 'src/json/node/json_node.dart';
-export 'src/json/node/json_array_node.dart';
-export 'src/json/node/json_boolean_node.dart';
-export 'src/json/node/json_map_node.dart';
-export 'src/json/node/json_null_node.dart';
-export 'src/json/node/json_number_node.dart';
-export 'src/json/node/json_text_node.dart';
-
-export 'src/json/parser/string_json_parser.dart';
-export 'src/json/parser/json_parser.dart';
-
-export 'src/json/json_validator.dart';
-export 'src/json/json_object_mapper.dart';
-export 'src/json/json_token.dart';
-
-export 'src/naming_strategy/naming_strategy.dart';
-export 'src/naming_strategy/naming_strategies.dart';
-
-export 'src/serialization/base_serializer.dart';
-export 'src/serialization/deserialization_context.dart';
-export 'src/serialization/deserialization_feature.dart';
-export 'src/serialization/object_deserializer.dart';
-export 'src/serialization/object_serializable.dart';
-export 'src/serialization/object_serializer.dart';
-export 'src/serialization/serialization_context.dart';
-export 'src/serialization/serialization_feature.dart';
-
 // XML
-
-export 'src/xml/adapter/xml_adapter.dart';
-export 'src/xml/adapter/dart_xml_serialization_adapter.dart';
-export 'src/xml/adapter/list_xml_serialization_adapter.dart';
-export 'src/xml/adapter/map_xml_serialization_adapter.dart';
-export 'src/xml/adapter/set_xml_serialization_adapter.dart';
-
-export 'src/xml/context/xml_deserialization_context.dart';
-export 'src/xml/context/xml_serialization_context.dart';
-
-export 'src/xml/generator/string_xml_generator.dart';
-export 'src/xml/generator/xml_generator.dart';
-
-export 'src/xml/node/xml_node.dart';
-export 'src/xml/node/xml_element_node.dart';
-export 'src/xml/node/xml_text_node.dart';
-
-export 'src/xml/parser/string_xml_parser.dart';
-export 'src/xml/parser/xml_parser.dart';
-
-export 'src/xml/xml_object_mapper.dart';
-export 'src/xml/xml_token.dart';
-
-// YAML
-
-export 'src/yaml/adapter/yaml_adapter.dart';
-export 'src/yaml/adapter/dart_yaml_serialization_adapter.dart';
-export 'src/yaml/adapter/list_yaml_serialization_adapter.dart';
-export 'src/yaml/adapter/map_yaml_serialization_adapter.dart';
-export 'src/yaml/adapter/set_yaml_serialization_adapter.dart';
-
-export 'src/yaml/context/yaml_deserialization_context.dart';
-export 'src/yaml/context/yaml_serialization_context.dart';
-
-export 'src/yaml/generator/string_yaml_generator.dart';
-export 'src/yaml/generator/yaml_generator.dart';
-
-export 'src/yaml/node/yaml_node.dart';
-export 'src/yaml/node/yaml_map_node.dart';
-export 'src/yaml/node/yaml_node_type.dart';
-export 'src/yaml/node/yaml_scalar_node.dart';
-export 'src/yaml/node/yaml_sequence_node.dart';
-
-export 'src/yaml/parser/string_yaml_parser.dart';
-export 'src/yaml/parser/yaml_parser.dart';
-
-export 'src/yaml/yaml_object_mapper.dart';
-export 'src/yaml/yaml_token.dart';
+export 'xml.dart';
+export 'serialization.dart';
+export 'yaml.dart';
+export 'json.dart';
+export 'mapper.dart';
+export 'naming_strategy.dart';
 
 export 'src/annotations.dart';
 export 'src/exceptions.dart';

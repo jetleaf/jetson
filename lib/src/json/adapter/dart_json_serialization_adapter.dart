@@ -189,8 +189,7 @@ final class DartJsonSerializationAdapter extends JsonSerializationAdapter<Object
     }
 
     // 2. Check for [ToJson] annotation
-    final toJson = type.getDirectAnnotation<ToJson>();
-    if (toJson != null) {
+    if (type.getDirectAnnotation<ToJson>() case final toJson?) {
       serializer.serialize(toJson.creator(value), generator);
       return;
     }
@@ -218,8 +217,7 @@ final class DartJsonSerializationAdapter extends JsonSerializationAdapter<Object
         final jsonFieldName = jsonField?.name ?? namingStrategy.toJsonName(fieldName);
 
         // Handle field-level converter
-        final converterAnn = field.getDirectAnnotation<JsonConverter>();
-        if (converterAnn != null) {
+        if (field.getDirectAnnotation<JsonConverter>() case final converterAnn?) {
           final converterInstance = converterAnn.converter;
           final ct = converterAnn.type;
 
@@ -233,8 +231,7 @@ final class DartJsonSerializationAdapter extends JsonSerializationAdapter<Object
         }
 
         // Use appropriate serializer for field type
-        final possibleSerializer = serializer.findSerializerForType(field.getReturnClass());
-        if (possibleSerializer != null) {
+        if (serializer.findSerializerForType(field.getReturnClass()) case final possibleSerializer?) {
           generator.writeFieldName(jsonFieldName);
           possibleSerializer.serialize(fieldValue, generator, serializer);
           continue;

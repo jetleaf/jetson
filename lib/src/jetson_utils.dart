@@ -45,10 +45,6 @@ abstract interface class JetsonUtils {
       return invokable.invoke(null, null, [fields]);
     }
 
-    try {
-      return type.newInstance(fields);
-    } catch (_) {
-      return null;
-    }
+    return type.newInstance(fields);
   }
 }
