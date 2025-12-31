@@ -1,3 +1,17 @@
+// ---------------------------------------------------------------------------
+// 🍃 JetLeaf Framework - https://jetleaf.hapnium.com
+//
+// Copyright © 2025 Hapnium & JetLeaf Contributors. All rights reserved.
+//
+// This source file is part of the JetLeaf Framework and is protected
+// under copyright law. You may not copy, modify, or distribute this file
+// except in compliance with the JetLeaf license.
+//
+// For licensing terms, see the LICENSE file in the root of this project.
+// ---------------------------------------------------------------------------
+// 
+// 🔧 Powered by Hapnium — the Dart backend engine 🍃
+
 import 'package:jetleaf_core/core.dart';
 import 'package:jetleaf_lang/lang.dart';
 
@@ -105,53 +119,48 @@ final class DartJsonSerializationAdapter extends JsonSerializationAdapter<Object
         // Map JSON key → Dart field (do this before attempting nested delegation)
         final dartKey = naming.toDartName(jsonKey);
         try {
-          final field = type.getField(dartKey);
-
           // Handle unknown properties
-          if (field == null) {
-            if (!allowUnknown) {
-              throw JsonParsingException('Unknown property "$jsonKey" for type ${_type.getName()}');
+          if (type.getField(dartKey) case final field?) {
+            final fieldClass = field.getReturnClass();
+
+            // Skip ignored fields
+            if (field.hasDirectAnnotation<JsonIgnore>()) continue;
+
+            final jsonField = field.getDirectAnnotation<JsonField>();
+            if (jsonField != null && jsonField.ignore) continue;
+
+            // Handle @JsonField (default values / required)
+            if (jsonValue == null) {
+              final defaultValue = jsonField?.defaultValue;
+              if (defaultValue != null) {
+                fieldValues[dartKey] = defaultValue;
+                continue;
+              }
             }
 
+            if (jsonValue == null && jsonField?.required == true) {
+              throw JsonParsingException('Required field "$dartKey" missing for ${_type.getName()}');
+            }
+
+            // Apply @JsonConverter if present
+            if (field.getDirectAnnotation<JsonConverter>() case final jsonConverter?) {
+              final converterInstance = jsonConverter.converter;
+              final ct = jsonConverter.type;
+
+              final adapter = ct != null ? ct.toClass().getNoArgConstructor()?.newInstance() : converterInstance;
+              if (adapter != null && adapter is JsonDeserializer) {
+                fieldValues[dartKey] = adapter.deserialize(parser, ctxt, fieldClass);
+                continue;
+              }
+            }
+
+            // Try type-based deserializer
+            fieldValues[dartKey] = ctxt.deserialize(parser, fieldClass);
+          } else if (!allowUnknown) {
+            throw JsonParsingException('Unknown property "$jsonKey" for type ${_type.getName()}');
+          } else {
             continue;
           }
-
-          final fieldClass = field.getReturnClass();
-
-          // Skip ignored fields
-          if (field.hasDirectAnnotation<JsonIgnore>()) continue;
-
-          final jsonField = field.getDirectAnnotation<JsonField>();
-          if (jsonField != null && jsonField.ignore) continue;
-
-          // Handle @JsonField (default values / required)
-          if (jsonValue == null) {
-            final defaultValue = jsonField?.defaultValue;
-            if (defaultValue != null) {
-              fieldValues[dartKey] = defaultValue;
-              continue;
-            }
-          }
-
-          if (jsonValue == null && jsonField?.required == true) {
-            throw JsonParsingException('Required field "$dartKey" missing for ${_type.getName()}');
-          }
-
-          // Apply @JsonConverter if present
-          final jsonConverter = field.getDirectAnnotation<JsonConverter>();
-          if (jsonConverter != null) {
-            final converterInstance = jsonConverter.converter;
-            final ct = jsonConverter.type;
-
-            final adapter = ct != null ? ct.toClass().getNoArgConstructor()?.newInstance() : converterInstance;
-            if (adapter != null && adapter is JsonDeserializer) {
-              fieldValues[dartKey] = adapter.deserialize(parser, ctxt, fieldClass);
-              continue;
-            }
-          }
-
-          // Try type-based deserializer
-          fieldValues[dartKey] = ctxt.deserialize(parser, fieldClass);
         } on FieldAccessException catch (e) {
           if (e.getCause() is NoSuchMethodError) {
             // ignore method error
@@ -176,21 +185,30 @@ final class DartJsonSerializationAdapter extends JsonSerializationAdapter<Object
     final namingStrategy = serializer.getNamingStrategy();
     final allowNullValues = serializer.getObjectMapper().isFeatureEnabled(SerializationFeature.WRITE_NULL_MAP_VALUES.name);
 
-    if (value is ToJsonFactory) {
+    // 1. Check for [ToJsonFactory] sub class
+    if (value case ToJsonFactory value) {
       serializer.serialize(value.toJson(), generator);
-      return;
-    }
-
-    // 1. Prefer custom `toJson()` method if defined
-    final toJsonMethodIfAvailable = type.getMethod("toJson");
-    if (toJsonMethodIfAvailable != null && toJsonMethodIfAvailable.getParameterCount() == 0) {
-      serializer.serialize(toJsonMethodIfAvailable.invoke(value), generator);
       return;
     }
 
     // 2. Check for [ToJson] annotation
     if (type.getDirectAnnotation<ToJson>() case final toJson?) {
       serializer.serialize(toJson.creator(value), generator);
+      return;
+    }
+
+    // 3. Prefer custom [JsonOutput] annotated method if defined
+    if (type.getMethods().find((me) => me.hasDirectAnnotation<JsonOutput>()) case final jsonOutput?) {
+      if (jsonOutput.getParameterCount() == 0) {
+        serializer.serialize(jsonOutput.invoke(value), generator);
+        return;
+      }
+    }
+
+    // 4. Prefer custom `toJson()` method if defined
+    final toJson = type.getMethod("toJson");
+    if (toJson != null && toJson.getParameterCount() == 0) {
+      serializer.serialize(toJson.invoke(value), generator);
       return;
     }
 

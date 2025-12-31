@@ -92,7 +92,7 @@ class JsonConverter<T extends ObjectSerializable> extends ReflectableAnnotation 
 ///
 /// This annotation is part of the Jetleaf Reflection system.
 /// {@endtemplate}
-@Target({TargetKind.constructor, TargetKind.method})
+@Target({TargetKind.constructor})
 class JsonCreator extends ReflectableAnnotation {
   /// Creates a new [JsonCreator] annotation.
   ///
@@ -104,6 +104,63 @@ class JsonCreator extends ReflectableAnnotation {
   
   @override
   Type get annotationType => JsonCreator;
+}
+
+/// {@template json_output}
+/// Annotation to designate a method as the primary **JSON output provider**
+/// for an object.
+///
+/// Use this annotation when a class exposes one or more methods capable of
+/// producing a JSON-compatible representation, and you want to explicitly
+/// specify which method should be used during serialization.
+///
+/// This allows developers to:
+/// - Avoid naming methods `toJson`
+/// - Define multiple output strategies
+/// - Provide a deterministic serialization entry point for reflection-based
+///   serializers
+///
+/// The annotated method must:
+/// - Be an **instance method**
+/// - Accept **no parameters**
+/// - Return a JSON-compatible value (typically `Map<String, dynamic>`)
+///
+/// ### Example
+/// ```dart
+/// class User {
+///   final String name;
+///   final int age;
+///
+///   User(this.name, this.age);
+///
+///   @JsonOutput()
+///   Map<String, dynamic> asJson() {
+///     return {
+///       'name': name,
+///       'age': age,
+///     };
+///   }
+/// }
+/// ```
+///
+/// In this example, the `asJson` method is marked with `@JsonOutput`,
+/// indicating it should be used to serialize the `User` instance,
+/// even though the method is not named `toJson`.
+///
+/// This annotation is part of the Jetleaf Reflection system.
+/// {@endtemplate}
+@Target({TargetKind.method})
+class JsonOutput extends ReflectableAnnotation {
+  /// Creates a new [JsonOutput] annotation.
+  ///
+  /// Apply this to a method to indicate it should be used as the
+  /// primary JSON serialization output.
+  ///
+  /// {@macro json_output}
+  const JsonOutput();
+
+  @override
+  Type get annotationType => JsonOutput;
 }
 
 /// {@template json_field}
@@ -326,9 +383,9 @@ class FromJson<T> extends ReflectableAnnotation {
 /// {@endtemplate}
 @Generic(ToJson)
 @Target({TargetKind.classType})
-class ToJson<T> extends ReflectableAnnotation {
+class ToJson extends ReflectableAnnotation {
   /// A function that converts an instance of the annotated class to a JSON map.
-  final Map<String, Object> Function(T) creator;
+  final Map<String, Object> Function(Object) creator;
 
   /// Constructs a [ToJson] annotation with the given `creator` function.
   const ToJson(this.creator);

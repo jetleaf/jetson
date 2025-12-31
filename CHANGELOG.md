@@ -6,6 +6,17 @@ This project follows a simple, human-readable changelog format inspired by
 
 ---
 
+## [1.1.6]
+
+### Added
+- Introduced the `JsonOutput` annotation as the counterpart to `JsonCreator`.
+- Added new mechanisms for constructing objects from JSON values.
+
+### Fixed
+- Resolved exception swallowing issues; thrown exceptions are now properly propagated.
+
+---
+
 ## [1.1.5]
 
 ### Changed

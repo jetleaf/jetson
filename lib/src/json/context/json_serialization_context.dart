@@ -110,9 +110,7 @@ class JsonSerializationContext implements SerializationContext<JsonGenerator> {
 
   @override
   ObjectSerializer? findSerializerForType(Class type) {
-    final deserializer = find(type, _configuredSerializers) ?? find(type, _frameworkSerializers);
-
-    if (deserializer != null) {
+    if ((find(type, _configuredSerializers) ?? find(type, _frameworkSerializers)) case final deserializer?) {
       return deserializer;
     }
 
@@ -142,8 +140,8 @@ class JsonSerializationContext implements SerializationContext<JsonGenerator> {
   /// }
   /// ```
   ObjectSerializer? find(Class type, Map<Class, ObjectSerializer> serializers) {
-    if (serializers.containsKey(type)) {
-      return serializers[type];
+    if (serializers[type] case final serializer?) {
+      return serializer;
     }
 
     if (serializers.values.find((serializer) => serializer.canSerialize(type)) case final serializer?) {
