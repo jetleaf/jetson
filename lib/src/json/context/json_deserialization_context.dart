@@ -125,15 +125,14 @@ class JsonDeserializationContext implements DeserializationContext<JsonParser> {
 
   @override
   ObjectDeserializer? findDeserializerForType(Class type) {
-    final deserializer = find(type, _configuredDeserializers) ?? find(type, _frameworkDeserializers);
-
-    if (deserializer != null) {
+    if ((find(type, _configuredDeserializers) ?? find(type, _frameworkDeserializers)) case final deserializer?) {
       return deserializer;
     }
 
     // Fall back to dart deserializer for complex objects
     final dartDeserializer = DartJsonSerializationAdapter(type);
     _frameworkDeserializers[type] = dartDeserializer;
+    
     return dartDeserializer;
   }
 
@@ -156,17 +155,15 @@ class JsonDeserializationContext implements DeserializationContext<JsonParser> {
   /// }
   /// ```
   ObjectDeserializer? find(Class type, Map<Class, ObjectDeserializer> deserializers) {
-    if (deserializers.containsKey(type)) {
-      return deserializers[type];
-    }
-
-    ObjectDeserializer? deserializer = deserializers.values.find((deserializer) => deserializer.canDeserialize(type));
-    if (deserializer != null) {
+    if (deserializers[type] case final deserializer?) {
       return deserializer;
     }
 
-    deserializer = deserializers.values.find((ss) => ss.toClass() == type || ss.toClass().getType() == type.getType());
-    if (deserializer != null) {
+    if (deserializers.values.find((deserializer) => deserializer.canDeserialize(type)) case final deserializer?) {
+      return deserializer;
+    }
+
+    if (deserializers.values.find((ss) => ss.toClass() == type || ss.toClass().getType() == type.getType()) case final deserializer?) {
       return deserializer;
     }
 
@@ -188,7 +185,15 @@ class JsonDeserializationContext implements DeserializationContext<JsonParser> {
     final result = deserializer != null ? deserializer.deserialize(parser, this, type) : parser.getCurrentValue();
 
     try {
-      return getConversionService().convert(result, type) ?? result as T;
+      if (result case T result) {
+        return result;
+      }
+
+      if (getConversionService().convert(result, type) case T result?) {
+        return result;
+      }
+
+      return getConversionService().convert(result, type) as T;
     } on ConverterNotFoundException catch (_) {
       return result as T;
     } catch (e, st) {
@@ -226,8 +231,6 @@ class JsonDeserializationContext implements DeserializationContext<JsonParser> {
     buffer.writeln('3️⃣  If you have fields to ignore or rename, use:');
     buffer.writeln('    `@JsonField(name: "custom_name")` or `@JsonIgnore()`');
     buffer.writeln('');
-    buffer.writeln('⚙️  **Technical details:**');
-    buffer.writeln('──────────────────────────────────────────────');
 
     return buffer.toString();
   }
