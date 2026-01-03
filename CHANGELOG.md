@@ -6,6 +6,17 @@ This project follows a simple, human-readable changelog format inspired by
 
 ---
 
+## [1.1.7]
+
+### Changed
+
+- Updated dependencies: `jetleaf_core`, `jetleaf_pod` and `jetleaf_convert`.
+
+### Added
+- `ToJsonFactory`.
+
+---
+
 ## [1.1.6]
 
 ### Added

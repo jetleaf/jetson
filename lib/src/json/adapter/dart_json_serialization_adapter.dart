@@ -12,7 +12,6 @@
 // 
 // 🔧 Powered by Hapnium — the Dart backend engine 🍃
 
-import 'package:jetleaf_core/core.dart';
 import 'package:jetleaf_lang/lang.dart';
 
 import '../../annotations.dart';
@@ -23,6 +22,7 @@ import '../../serialization/serialization_feature.dart';
 import '../context/json_deserialization_context.dart';
 import '../context/json_serialization_context.dart';
 import '../generator/json_generator.dart';
+import '../json_factory.dart';
 import '../json_token.dart';
 import '../parser/json_parser.dart';
 import 'json_adapter.dart';
